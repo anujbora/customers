@@ -2,20 +2,24 @@
 customers = [
     {
         'id': 1,
-        'name': 'fido',
+        'first-name': 'fido',
+        'last-name': 'jack',
         'gender': 'male',
         'age': 23,
         'email': 'fido1@gmail.com',
-        'address-line':'10420 Queens Blvd',
+        'address-line1':'10420 Queens Blvd',
+        'address-line2':'16-V'
         'phonenumber' : 123456      
     },
     {
         'id': 2,
-        'name': 'shirley',
+        'first-name': 'shirley',
+        'last-name':'yang',
         'gender': 'female',
         'age': 22,
         'email': 'shirley2@gmail.com',
-        'address-line':'8th street Mahaton',
+        'address-line1':'8th street Mahaton',
+        'address-line2':'404 room',
         'phonenumber' : 234567   
     }
 ]
@@ -25,7 +29,7 @@ def create_customers():
     payload = request.get_json()
     if is_valid(payload):
         id = next_index()
-        customer = {'id': id, 'name': payload['name'], 'gender': payload['gender'], 'age': payload['age'],'email':payload['email'], 'address-line': payload['address-line'], 'phonenumber': payload['phonenumber']}
+        customer = {'id': id, 'first-name': payload['first-name'],'last-name': payload['last-name'],'gender': payload['gender'], 'age': payload['age'],'email':payload['email'], 'address-line1': payload['address-line1'], 'address-line2':payload['address-line2'], 'phonenumber': payload['phonenumber']}
         customers.append(customer)
         message = customer
         rc = HTTP_201_CREATED

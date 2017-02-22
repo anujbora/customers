@@ -4,7 +4,7 @@ def update_customers(id):
     if len(index) > 0:
         payload = request.get_json()
         if is_valid(payload):
-            customers[index[0]] = {'id': id, 'name': payload['name'],  'gender': payload['gender'], 'age': payload['age'],'email':payload['email'], 'address-line': payload['address-line'], 'phonenumber': payload['phonenumber']}
+            customers[index[0]] = {'id': id, 'first-name': payload['first-name'], 'last-name': payload['last-name'], 'gender': payload['gender'], 'age': payload['age'],'email':payload['email'], 'address-line1': payload['address-line1'], 'address-line2': payload['address-line2'],'phonenumber': payload['phonenumber']}
             message = customers[index[0]]
             rc = HTTP_200_OK
         else:
