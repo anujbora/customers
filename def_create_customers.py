@@ -7,7 +7,7 @@ customers = [
         'age': 23,
         'email': 'fido1@gmail.com',
         'address-line':'10420 Queens Blvd',
-        'phonenumber' : 123456,      
+        'phonenumber' : 123456      
     },
     {
         'id': 2,
@@ -16,7 +16,7 @@ customers = [
         'age': 22,
         'email': 'shirley2@gmail.com',
         'address-line':'8th street Mahaton',
-        'phonenumber' : 234567,   
+        'phonenumber' : 234567   
     }
 ]
 
