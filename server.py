@@ -37,25 +37,25 @@ current_customer_id = 2
 customers = [
     {
         'id': 1,
-        'first-name': 'fido',
-        'last-name': 'jack',
+        'first_name': 'fido',
+        'last_name': 'jack',
         'gender': 'M',
         'age': 23,
         'email': 'fido1@gmail.com',
-        'address-line1':'10420 Queens Blvd',
-        'address-line2':'16-V'
-        'phonenumber' : 123456      
+        'address_line1':'10420 Queens Blvd',
+        'address_line2':'16-V',
+        'phonenumber':123456      
     },
     {
         'id': 2,
-        'first-name': 'shirley',
-        'last-name':'yang',
+        'first_name': 'shirley',
+        'last_name':'yang',
         'gender': 'F',
         'age': 22,
         'email': 'shirley2@gmail.com',
-        'address-line1':'8th street Mahaton',
-        'address-line2':'404 room',
-        'phonenumber' : 234567   
+        'address_line1':'8th street Mahaton',
+        'address_line2':'404 room',
+        'phonenumber':234567   
     }
 ]
 
@@ -107,7 +107,7 @@ def create_customers():
     payload = request.get_json()
     if is_valid(payload):
         id = next_index()
-        customer = {'id': id, 'first-name': payload['first-name'],'last-name': payload['last-name'],'gender': payload['gender'], 'age': payload['age'],'email':payload['email'], 'address-line1': payload['address-line1'], 'address-line2':payload['address-line2'], 'phonenumber': payload['phonenumber']}
+        customer = {'id': id, 'first_name': payload['first_name'],'last_name': payload['last_name'],'gender': payload['gender'], 'age': payload['age'],'email':payload['email'], 'address_line1': payload['address_line1'], 'address_line2':payload['address_line2'], 'phonenumber': payload['phonenumber']}
         customers.append(customer)
         message = customer
         rc = HTTP_201_CREATED
@@ -129,7 +129,7 @@ def update_customers(id):
     if len(index) > 0:
         payload = request.get_json()
         if is_valid(payload):
-            customers[index[0]] = {'id': id, 'first-name': payload['first-name'], 'last-name': payload['last-name'], 'gender': payload['gender'], 'age': payload['age'],'email':payload['email'], 'address-line1': payload['address-line1'], 'address-line2': payload['address-line2'],'phonenumber': payload['phonenumber']}
+            customers[index[0]] = {'id': id, 'first_name': payload['first_name'], 'last_name': payload['last_name'], 'gender': payload['gender'], 'age': payload['age'],'email':payload['email'], 'address_line1': payload['address_line1'], 'address_line2': payload['address_line2'],'phonenumber': payload['phonenumber']}
             message = customers[index[0]]
             rc = HTTP_200_OK
         else:
@@ -163,13 +163,13 @@ def next_index():
 def is_valid(data):
     valid = False
     try:
-        first-name = data['first-name']
-        last-name = data['last-name']
+        first_name = data['first_name']
+        last_name = data['last_name']
         gender = data['gender']
         age = data['age']
         email = data['email']
-        address-line1 = data['address-line1']
-        address-line2 = data['address-line2']
+        address_line1 = data['address_line1']
+        address_line2 = data['address_line2']
         phonenumber = data['phonenumber']
         valid = True
     except KeyError as err:
