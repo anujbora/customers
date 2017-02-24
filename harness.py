@@ -81,7 +81,7 @@ def list_customers():
 ######################################################################
 #return get_cust(customers)
 @app.route('/customers/<int:id>', methods=['GET'])
-def get_pets(id):
+def get_customers(id):
     index = [i for i, customer in enumerate(customers) if customer['id'] == id]
     if len(index) > 0:
         message = customers[index[0]]
