@@ -19,15 +19,14 @@ class Customer(object):
 ######################################################################
     def __init__(self, id, first_name, last_name, gender, age, email, address_line1, address_line2, phonenumber):
 		self.id = id
-        self.first_name = first_name
-        self.last_name = last_name
-        self.gender = gender
-        self.age = age
-        self.email = email
-        self.address_line1 = address_line1
-        self.address_line2 = address_line2
-        self.phonenumber = phonenumber
-
+		self.first_name = first_name
+		self.last_name = last_name
+		self.gender = gender
+		self.age = age
+		self.email = email
+		self.address_line1 = address_line1
+		self.address_line2 = address_line2
+		self.phonenumber = phonenumber
 
 ######################################################################
 # Saves the entire customer object data in the Redis database
