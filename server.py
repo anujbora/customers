@@ -40,22 +40,22 @@ customers = [
         'first_name': 'fido',
         'last_name': 'jack',
         'gender': 'M',
-        'age': 23,
+        'age': '23',
         'email': 'fido1@gmail.com',
         'address_line1':'10420 Queens Blvd',
         'address_line2':'16-V',
-        'phonenumber':123456      
+        'phonenumber':'123456'      
     },
     {
         'id': 2,
         'first_name': 'shirley',
         'last_name':'yang',
         'gender': 'F',
-        'age': 22,
+        'age': '22',
         'email': 'shirley2@gmail.com',
         'address_line1':'8th street Mahaton',
         'address_line2':'404 room',
-        'phonenumber':234567   
+        'phonenumber':'234567'   
     }
 ]
 
