@@ -76,7 +76,6 @@ def get_pets(id):
     return make_response(jsonify(message), rc)
 
 ######################################################################
-# ADD A NEW PET
 ######################################################################
 @app.route('/pets', methods=['POST'])
 def create_pets():
