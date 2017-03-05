@@ -13,11 +13,12 @@
 # limitations under the License.
 
 class Customer(object):
+
 ######################################################################
 # Constructor to define all customer information
 ######################################################################
     def __init__(self, id, first_name, last_name, gender, age, email, address_line1, address_line2, phonenumber):
-		self.id = id
+		    self.id = id
         self.first_name = first_name
         self.last_name = last_name
         self.gender = gender
@@ -26,6 +27,7 @@ class Customer(object):
         self.address_line1 = address_line1
         self.address_line2 = address_line2
         self.phonenumber = phonenumber
+
 
 ######################################################################
 # Saves the entire customer object data in the Redis database
@@ -48,6 +50,7 @@ class Customer(object):
         redis.incr('index')
         index = redis.get('index')
         return index
+
 
 ######################################################################
 # Convert the object into a dictionary object
@@ -75,15 +78,15 @@ class Customer(object):
     def validate(data):
         valid = False
         try:
-			id = data['id']
-			first_name = data['first_name']
-			last_name = data['last_name']
-			gender = data['gender']
-			age = data['age']
-			email = data['email']
-			address_line1 = data['address_line1']
-			address_line2 = data['address_line2']
-			phonenumber = data['phonenumber']			
+            id = data['id']
+            first_name = data['first_name']
+            last_name = data['last_name']
+            gender = data['gender']
+            age = data['age']
+            email = data['email']
+            address_line1 = data['address_line1']
+            address_line2 = data['address_line2']
+            phonenumber = data['phonenumber']			
             valid = True
         except KeyError:
             valid = False
@@ -91,7 +94,6 @@ class Customer(object):
             valid = False
         return valid
 
-		
 ######################################################################
 # Return all Redis data that have key values different from 'index'
 ######################################################################
@@ -115,6 +117,7 @@ class Customer(object):
             return Customer.from_dict(data)
         else:
             return None
+
 
 	'''
     @staticmethod
