@@ -118,15 +118,15 @@ class Customer(object):
         else:
             return None
 
-
-	'''
+######################################################################
+# Return rows by email
+######################################################################
     @staticmethod
-    def find_by_category(redis, category):
+    def find_by_email(redis, email):
         results = []
         for key in redis.keys():
             if key != 'index':  # filer out our id index
                 data = redis.hgetall(key)
-                if data['category'] == category:
+                if data['email'] == email:
                     results.append(Customer.from_dict(data))
         return results
-	'''
