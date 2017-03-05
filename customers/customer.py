@@ -18,7 +18,7 @@ class Customer(object):
 # Constructor to define all customer information
 ######################################################################
     def __init__(self, id, first_name, last_name, gender, age, email, address_line1, address_line2, phonenumber):
-		    self.id = id
+		self.id = id
         self.first_name = first_name
         self.last_name = last_name
         self.gender = gender
