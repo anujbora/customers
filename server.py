@@ -44,7 +44,7 @@ customers = [
         'email': 'fido1@gmail.com',
         'address_line1':'10420 Queens Blvd',
         'address_line2':'16-V',
-        'phonenumber':'123456'      
+        'phonenumber':'123456'
     },
     {
         'id': 2,
@@ -55,7 +55,7 @@ customers = [
         'email': 'shirley2@gmail.com',
         'address_line1':'8th street Mahaton',
         'address_line2':'404 room',
-        'phonenumber':'234567'   
+        'phonenumber':'234567'
     }
 ]
 
@@ -95,6 +95,21 @@ def get_customers(id):
         rc = HTTP_200_OK
     else:
         message = { 'error' : 'customer with id: %s was not found' % str(id) }
+        rc = HTTP_404_NOT_FOUND
+
+    return make_response(jsonify(message), rc)
+
+######################################################################
+# RETRIEVE A customer by Gender
+######################################################################
+@app.route('/customers/<string:gender>', methods=['GET'])
+def get_customers_by_gender(gender):
+    index = [i for i, customer in enumerate(customers) if customer['gender'] == gender]
+    if len(index) > 0:
+        message = customers[index[0]]
+        rc = HTTP_200_OK
+    else:
+        message = { 'error' : 'customer with id: %s was not found' % gender }
         rc = HTTP_404_NOT_FOUND
 
     return make_response(jsonify(message), rc)
