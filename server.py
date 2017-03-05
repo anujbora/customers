@@ -35,10 +35,6 @@ HTTP_400_BAD_REQUEST = 400
 HTTP_404_NOT_FOUND = 404
 HTTP_409_CONFLICT = 409
 
-# Lock for thread-safe counter increment
-
-# dummy data for testing
-
 ######################################################################
 # GET INDEX
 ######################################################################
@@ -50,30 +46,30 @@ def index():
     return app.send_static_file('index.html')
 
 ######################################################################
-# LIST ALL customerS
+# LIST ALL customers
 ######################################################################
 @app.route('/customers', methods=['GET'])
 def list_customers():
     results = []
     email = request.args.get('email')
     if email:
-        results = Customer.find_by_email(redis, email)
+        results = customer.find_by_email(redis, email)
     else:
         results = Customer.all(redis)
 
-    results = [Customer.serialize(customer) for customer in customers]
-    return make_response(jsonify(results), HTTP_200_OK)    
+    results = [Customer.serialize(customer) for customer in results]
+    return make_response(jsonify(results), HTTP_200_OK)
 ######################################################################
 # RETRIEVE A customer
 ######################################################################
 @app.route('/customers/<int:id>', methods=['GET'])
 def get_customers(id):
-    customer = Customer.find(redis, id)
+    customer = customer.find(redis, id)
     if customer:
         message = customer.serialize()
         rc = HTTP_200_OK
     else:
-        message = { 'error' : 'Customer with id: %s was not found' % str(id) }
+        message = { 'error' : 'customer with id: %s was not found' % str(id) }
         rc = HTTP_404_NOT_FOUND
 
     return make_response(jsonify(message), rc)
@@ -85,8 +81,8 @@ def get_customers(id):
 def create_customers():
     id = 0
     payload = request.get_json()
-    if Customer.validate(payload):
-        customer = customer(id, payload['first_name'], payload['last_name'],payload['gender'],payload['age'],payload['email'],payload['address_line1'],payload['address_line2'],payload['phonenumber'])
+    if customer.validate(payload):
+        customer = Customer(id, payload['first_name'], payload['last_name'],payload['gender'],payload['age'],payload['email'],payload['address_line1'],payload['address_line2'],payload['phonenumber'])
         customer.save(redis)
         id = customer.id
         message = customer.serialize()
@@ -108,14 +104,14 @@ def update_customers(id):
     customer = Customer.find(redis, id)
     if customer:
         payload = request.get_json()
-        if customer.validate(payload):
-            customer = customer.from_dict(payload)
-            customer.save(redis)
+        if Customer.validate(payload):
+            Customer = customer.from_dict(payload)
+            Customer.save(redis)
             message = customer.serialize()
             rc = HTTP_200_OK
         else:
             message = { 'error' : 'Customer data was not valid' }
-            rc = HTTP_400_BAD_REQUEST
+            rc = HTTP_400_BAD_REQUET
     else:
         message = { 'error' : 'Customer %s was not found' % id }
         rc = HTTP_404_NOT_FOUND
@@ -136,7 +132,7 @@ def delete_customers(id):
 #  U T I L I T Y   F U N C T I O N S
 ######################################################################
 def data_load(payload):
-    customers = Customer(0, payload['first_name'], payload['last_name'],payload['gender'],payload['age'],payload['email'],payload['address_line1'],payload['address_line2'],payload['phonenumber'])
+    customers = customer(0, payload['first_name'], payload['last_name'],payload['gender'],payload['age'],payload['email'],payload['address_line1'],payload['address_line2'],payload['phonenumber'])
     customers.save(redis)
 
 def data_reset():
