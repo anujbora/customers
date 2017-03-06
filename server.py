@@ -121,6 +121,7 @@ def update_customers(id):
         payload = request.get_json()
         if Customer.validate(payload):
             customer = Customer.from_dict(payload)
+			customer.id = id				# so that the id in the URI is utilized
             customer.save(redis)
             message = customer.serialize()
             rc = HTTP_200_OK
