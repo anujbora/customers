@@ -126,7 +126,7 @@ def update_customers(id):
             rc = HTTP_200_OK
         else:
             message = { 'error' : 'Customer data was not valid' }
-            rc = HTTP_400_BAD_REQUET
+            rc = HTTP_400_BAD_REQUEST
     else:
         message = { 'error' : 'Customer %s was not found' % id }
         rc = HTTP_404_NOT_FOUND
