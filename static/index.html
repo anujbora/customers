@@ -14,25 +14,31 @@
               <img class = "newappIcon" src="static/images/newapp-icon.png">
             </td>
 			<td>
-				<h1 id = "message">Pet Demo REST API Service</h1>
+				<h1 id = "message">Customer REST API Service for E-Commerce website</h1>
 				<p class='description'>
-				GET <a href="/pets">/pets</a> to see all the pets.
+				GET <a href="/customers">/customers</a> to see all the customers.
 				<br><br>
-                GET <a href="/pets?category=dog">/pets?category=dog</a> to see all of the pets in the 'dog' category.
+                GET <a href="/customers?email=abc@xyz.com">/customers?email=abc@xyz.com</a> to see all customers with registered with a particular email.
 				<br><br>
-				GET /pets/{id} retrieves a pet from the DB using an ID.
+				GET /customers/{id} retrieves a customer from the DB using an ID.
 				<br><br>
-				PUT /pets/{id} updates a pet using an ID.
+				PUT /customers/{id} updates a customer using an ID.
 				<br><br>
-				DELETE /pets/{id} removes a pet from the DB using an ID.
+				DELETE /customers/{id} removes a customer from the DB using an ID.
 				<br><br>
-				POST /pets creates an new pet.
+				POST /customer creates an new customer.
                 <p>Example Data:</p>
                 <pre>
     {
-        "name": "bowser",
-        "category": "dog"
-    }
+       "first_name": "Jason",
+       "last_name": "Statham",
+       "gender": "M",
+       "age": 51,
+       "email": "jstatam@gmail.com",
+       "address_line1":"Hollywood Boulevard",
+       "address_line2":"",
+       "phonenumber" : ""  
+	}
                 </pre>
 			</td>
 		</tr>
