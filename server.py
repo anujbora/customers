@@ -53,7 +53,7 @@ def list_customers():
     results = []
     email = request.args.get('email')
     if email:
-        results = customer.find_by_email(redis, email)
+        results = Customer.find_by_email(redis, email)
     else:
         results = Customer.all(redis)
 
@@ -69,7 +69,7 @@ def get_customers(id):
         message = customer.serialize()
         rc = HTTP_200_OK
     else:
-        message = { 'error' : 'customer with id: %s was not found' % str(id) }
+        message = { 'error' : 'Customer with id: %s was not found' % str(id) }
         rc = HTTP_404_NOT_FOUND
 
     return make_response(jsonify(message), rc)
