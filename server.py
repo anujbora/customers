@@ -50,14 +50,14 @@ def index():
 ######################################################################
 @app.route('/customers', methods=['GET'])
 def list_customers():
-    results = []
+    customers = []
     email = request.args.get('email')
     if email:
-        results = Customer.find_by_email(redis, email)
+        customers = Customer.find_by_email(redis, email)
     else:
-        results = Customer.all(redis)
+        customers = Customer.all(redis)
 
-    results = [Customer.serialize(customer) for customer in results]
+    results = [Customer.serialize(customer) for customer in customers]
     return make_response(jsonify(results), HTTP_200_OK)
 ######################################################################
 # RETRIEVE A customer
