@@ -64,12 +64,27 @@ def list_customers():
 ######################################################################
 @app.route('/customers/<int:id>', methods=['GET'])
 def get_customers(id):
-    customer = customer.find(redis, id)
+    customer = Customer.find(redis, id)
     if customer:
         message = customer.serialize()
         rc = HTTP_200_OK
     else:
         message = { 'error' : 'customer with id: %s was not found' % str(id) }
+        rc = HTTP_404_NOT_FOUND
+
+    return make_response(jsonify(message), rc)
+
+######################################################################
+# RETRIEVE A customer by Gender
+######################################################################
+@app.route('/customers/<string:email>', methods=['GET'])
+def get_customers_by_gender(email):
+    customer = Customer.find_by_email(redis, email)
+    if customer:
+        message = customer.serialize()
+        rc = HTTP_200_OK
+    else:
+        message = { 'error' : 'customer with Gender: %s was not found' % str(email) }
         rc = HTTP_404_NOT_FOUND
 
     return make_response(jsonify(message), rc)
@@ -81,7 +96,7 @@ def get_customers(id):
 def create_customers():
     id = 0
     payload = request.get_json()
-    if customer.validate(payload):
+    if Customer.validate(payload):
         customer = Customer(id, payload['first_name'], payload['last_name'],payload['gender'],payload['age'],payload['email'],payload['address_line1'],payload['address_line2'],payload['phonenumber'])
         customer.save(redis)
         id = customer.id
@@ -105,8 +120,8 @@ def update_customers(id):
     if customer:
         payload = request.get_json()
         if Customer.validate(payload):
-            Customer = customer.from_dict(payload)
-            Customer.save(redis)
+            customer = Customer.from_dict(payload)
+            customer.save(redis)
             message = customer.serialize()
             rc = HTTP_200_OK
         else:
