@@ -78,13 +78,13 @@ def get_customers(id):
 # RETRIEVE A customer by Gender
 ######################################################################
 @app.route('/customers/<string:email>', methods=['GET'])
-def get_customers_by_gender(email):
+def get_customers_by_email(email):
     customer = Customer.find_by_email(redis, email)
     if customer:
         message = customer.serialize()
         rc = HTTP_200_OK
     else:
-        message = { 'error' : 'customer with Gender: %s was not found' % str(email) }
+        message = { 'error' : 'customer with Email: %s was not found' % str(email) }
         rc = HTTP_404_NOT_FOUND
 
     return make_response(jsonify(message), rc)
