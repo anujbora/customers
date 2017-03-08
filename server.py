@@ -70,6 +70,7 @@ def list_customers():
     last_name = request.args.get('last_name')
     first_name = request.args.get('first_name')
     age = request.args.get('age')
+    gender = request.args.get('gender')
     address_line1 = request.args.get('address_line1')
     address_line2 = request.args.get('address_line2')
     phonenumber = request.args.get('phonenumber')
@@ -81,6 +82,8 @@ def list_customers():
         customers = Customer.find_by_first_name(redis, first_name)
     elif age:
         customers = Customer.find_by_age(redis, age)
+    elif gender:
+        customers = Customer.find_by_age(redis, gender)
     elif address_line1:
         customers = Customer.find_by_address_line1(redis, address_line1)
     elif address_line2:
