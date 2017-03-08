@@ -83,7 +83,7 @@ def list_customers():
     elif age:
         customers = Customer.find_by_age(redis, age)
     elif gender:
-        customers = Customer.find_by_age(redis, gender)
+        customers = Customer.find_by_gender(redis, gender)
     elif address_line1:
         customers = Customer.find_by_address_line1(redis, address_line1)
     elif address_line2:
