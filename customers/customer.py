@@ -10,6 +10,7 @@ class Customer(object):
         self.address_line1 = address_line1
         self.address_line2 = address_line2
         self.phonenumber = phonenumber
+        self.active = True					#By default, any new customer created is marked as Active
 
     def save(self, redis):
         if self.id == 0:
@@ -47,6 +48,7 @@ class Customer(object):
             address_line1 = data['address_line1']
             address_line2 = data['address_line2']
             phonenumber = data['phonenumber']
+            active = data['active']
             valid = True
         except KeyError:
             valid = False
@@ -122,6 +124,16 @@ class Customer(object):
                     results.append(Customer.from_dict(data))
         return results
 
+    @staticmethod
+    def find_by_activity(redis, active):
+        results = []
+        for key in redis.keys():
+            if key != 'index':  # filer out our id index
+                data = redis.hgetall(key)
+                if data['active'] == active:
+                    results.append(Customer.from_dict(data))
+        return results
+		
     @staticmethod
     def find_by_last_name(redis, last_name):
         results = []
