@@ -68,6 +68,38 @@ def search_by_keyword(keyword):
     return make_response(jsonify(answer), HTTP_200_OK)
 	
 ######################################################################
+# ACTIVATE a customer
+######################################################################	
+@app.route('/customers/activate/<int:id>', methods=['PUT'])
+def activate_customer(id):
+    customer = Customer.find(redis, id)
+    if customer:
+		customer.active = True
+		customer.save(redis)
+		message = customer.serialize()
+		rc = HTTP_200_OK
+    else:
+        message = { 'error' : 'Customer %s was not found' % id }
+        rc = HTTP_404_NOT_FOUND
+    return make_response(jsonify(message), rc)
+	
+######################################################################
+# DEACTIVATE a customer
+######################################################################	
+@app.route('/customers/activate/<int:id>', methods=['PUT'])
+def activate_customer(id):
+    customer = Customer.find(redis, id)
+    if customer:
+		customer.active = False
+		customer.save(redis)
+		message = customer.serialize()
+		rc = HTTP_200_OK
+    else:
+        message = { 'error' : 'Customer %s was not found' % id }
+        rc = HTTP_404_NOT_FOUND
+    return make_response(jsonify(message), rc)
+	
+######################################################################
 # LIST ALL customers
 ######################################################################
 @app.route('/customers', methods=['GET'])
@@ -81,6 +113,7 @@ def list_customers():
     address_line1 = request.args.get('address_line1')
     address_line2 = request.args.get('address_line2')
     phonenumber = request.args.get('phonenumber')
+    active = request.args.get('active')
     if email:
         customers = Customer.find_by_email(redis, email)
     elif last_name:
@@ -97,6 +130,8 @@ def list_customers():
         customers = Customer.find_by_address_line2(redis, address_line2)
     elif phonenumber:
         customers = Customer.find_by_phonenumber(redis, phonenumber)
+    elif active:
+		customers = Customer.find_by_activity(redis, active)
     else:
         customers = Customer.all(redis)
 
