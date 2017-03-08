@@ -86,7 +86,7 @@ def activate_customer(id):
 ######################################################################
 # DEACTIVATE a customer
 ######################################################################	
-@app.route('/customers/activate/<int:id>', methods=['PUT'])
+@app.route('/customers/deactivate/<int:id>', methods=['PUT'])
 def activate_customer(id):
     customer = Customer.find(redis, id)
     if customer:
