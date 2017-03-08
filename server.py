@@ -98,7 +98,17 @@ def deactivate_customer(id):
         message = { 'error' : 'Customer %s was not found' % id }
         rc = HTTP_404_NOT_FOUND
     return make_response(jsonify(message), rc)
-	
+
+######################################################################
+# FLUSH all customer data
+######################################################################	
+@app.route('/customers/flushall', methods=['PUT'])
+def data_reset():
+    redis.flushall()
+    message = { 'info' : 'All customer data has been flushed' }
+    rc = HTTP_200_OK
+    return make_response(jsonify(message), rc)	
+
 ######################################################################
 # LIST ALL customers
 ######################################################################
@@ -160,7 +170,7 @@ def create_customers():
     id = 0
     payload = request.get_json()
     if Customer.validate(payload):
-        customer = Customer(id, payload['first_name'], payload['last_name'],payload['gender'],payload['age'],payload['email'],payload['address_line1'],payload['address_line2'],payload['phonenumber'])
+        customer = Customer(id, payload['first_name'], payload['last_name'],payload['gender'],payload['age'],payload['email'],payload['address_line1'],payload['address_line2'],payload['phonenumber'],True)
         customer.save(redis)
         id = customer.id
         message = customer.serialize()
@@ -180,11 +190,13 @@ def create_customers():
 @app.route('/customers/<int:id>', methods=['PUT'])
 def update_customers(id):
     customer = Customer.find(redis, id)
+    active = customer.active
     if customer:
         payload = request.get_json()
         if Customer.validate(payload):
             customer = Customer.from_dict(payload)
             customer.id = id				# so that the id in the URI is utilized
+            customer.active = active		# restore the activity status
             customer.save(redis)
             message = customer.serialize()
             rc = HTTP_200_OK
