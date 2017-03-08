@@ -52,8 +52,26 @@ def index():
 def list_customers():
     customers = []
     email = request.args.get('email')
+    last_name = request.args.get('last_name')
+    first_name = request.args.get('first_name')
+    age = request.args.get('age')
+    address_line1 = request.args.get('address_line1')
+    address_line2 = request.args.get('address_line2')
+    phonenumber = request.args.get('phonenumber')
     if email:
         customers = Customer.find_by_email(redis, email)
+    elif last_name:
+        customers = Customer.find_by_last_name(redis, last_name)
+    elif first_name:
+        customers = Customer.find_by_first_name(redis, first_name)
+    elif age:
+        customers = Customer.find_by_age(redis, age)
+    elif address_line1:
+        customers = Customer.find_by_address_line1(redis, address_line1)
+    elif address_line2:
+        customers = Customer.find_by_address_line2(redis, address_line2)
+    elif phonenumber:
+        customers = Customer.find_by_phonenumber(redis, phonenumber)
     else:
         customers = Customer.all(redis)
 
@@ -70,81 +88,6 @@ def get_customers(id):
         rc = HTTP_200_OK
     else:
         message = { 'error' : 'Customer with id: %s was not found' % str(id) }
-        rc = HTTP_404_NOT_FOUND
-
-    return make_response(jsonify(message), rc)
-
-######################################################################
-# RETRIEVE A customer by Gender
-######################################################################
-@app.route('/customers/<string:email>', methods=['GET'])
-def get_customers_by_email(email):
-    customer = Customer.find_by_email(redis, email)
-    if customer:
-        message = customer.serialize()
-        rc = HTTP_200_OK
-    else:
-        message = { 'error' : 'customer with Email: %s was not found' % str(email) }
-        rc = HTTP_404_NOT_FOUND
-
-    return make_response(jsonify(message), rc)
-
-@app.route('/customers/<string:age>', methods=['GET'])
-def get_customers_by_age(age):
-    customer = Customer.find_by_age(redis, age)
-    if customer:
-        message = customer.serialize()
-        rc = HTTP_200_OK
-    else:
-        message = { 'error' : 'customer with Age: %s was not found' % str(age) }
-        rc = HTTP_404_NOT_FOUND
-
-    return make_response(jsonify(message), rc)
-
-@app.route('/customers/<string:gender>', methods=['GET'])
-def get_customers_by_gender(gender):
-    customer = Customer.find_by_gender(redis, gender)
-    if customer:
-        message = customer.serialize()
-        rc = HTTP_200_OK
-    else:
-        message = { 'error' : 'customer as Gender: %s was not found' % str(gender) }
-        rc = HTTP_404_NOT_FOUND
-
-    return make_response(jsonify(message), rc)
-
-@app.route('/customers/<string:last_name>', methods=['GET'])
-def get_customers_by_last_name(last_name):
-    customer = Customer.find_by_last_name(redis, last_name)
-    if customer:
-        message = customer.serialize()
-        rc = HTTP_200_OK
-    else:
-        message = { 'error' : 'customer last_name is: %s was not found' % str(last_name) }
-        rc = HTTP_404_NOT_FOUND
-
-    return make_response(jsonify(message), rc)
-
-@app.route('/customers/<string:last_name>', methods=['GET'])
-def get_customers_by_first_name(first_name):
-    customer = Customer.find_by_first_name(redis, first_name)
-    if customer:
-        message = customer.serialize()
-        rc = HTTP_200_OK
-    else:
-        message = { 'error' : 'customer first_name is: %s was not found' % str(first_name) }
-        rc = HTTP_404_NOT_FOUND
-
-    return make_response(jsonify(message), rc)
-
-@app.route('/customers/<string:phonenumber>', methods=['GET'])
-def get_customers_by_phonenumber(phonenumber):
-    customer = Customer.find_by_phonenumber(redis, phonenumber)
-    if customer:
-        message = customer.serialize()
-        rc = HTTP_200_OK
-    else:
-        message = { 'error' : 'customer with phonenumber: %s was not found' % str(phonenumber) }
         rc = HTTP_404_NOT_FOUND
 
     return make_response(jsonify(message), rc)
@@ -203,21 +146,6 @@ def delete_customers(id):
     if customer:
         customer.delete(redis)
     return make_response('', HTTP_204_NO_CONTENT)
-
-######################################################################
-# SEARCH by keyword
-######################################################################	
-@app.route('/customers/search-keyword/<string:keyword>', methods=['GET'])
-def search_by_keyword(keyword):
-    results = []
-    results.extend(Customer.search_in_age(redis, int(keyword)))
-    results.extend(Customer.search_in_first_name(redis, keyword))
-    results.extend(Customer.search_in_last_name(redis, keyword))
-    results.extend(Customer.search_in_email(redis, keyword))
-    results.extend(Customer.search_in_address_line1(redis, keyword))
-    results.extend(Customer.search_in_address_line2(redis, keyword))
-    results.extend(Customer.search_in_phonenumber(redis, int(keyword)))        
-    return results
 
 ######################################################################
 #  U T I L I T Y   F U N C T I O N S
