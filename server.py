@@ -57,8 +57,9 @@ def search_by_keyword(keyword):
     results.extend(Customer.search_in_email(redis, keyword))
     results.extend(Customer.search_in_address_line1(redis, keyword))
     results.extend(Customer.search_in_address_line2(redis, keyword))
-    results.extend(Customer.search_in_phonenumber(redis, int(keyword)))        
-    return results
+    results.extend(Customer.search_in_phonenumber(redis, int(keyword)))
+    answer = [Customer.serialize(customer) for customer in results]
+    return make_response(jsonify(answer), HTTP_200_OK)
 	
 ######################################################################
 # LIST ALL customers
