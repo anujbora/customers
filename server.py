@@ -138,7 +138,7 @@ def get_customers_by_first_name(first_name):
     return make_response(jsonify(message), rc)
 
 @app.route('/customers/<string:phonenumber>', methods=['GET'])
-def get_customers_by_last_name(phonenumber):
+def get_customers_by_phonenumber(phonenumber):
     customer = Customer.find_by_phonenumber(redis, phonenumber)
     if customer:
         message = customer.serialize()
