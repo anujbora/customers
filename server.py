@@ -51,13 +51,13 @@ def index():
 @app.route('/customers/search-keyword/<string:keyword>', methods=['GET'])
 def search_by_keyword(keyword):
     results = []
-    results.extend(Customer.search_in_age(redis, int(keyword)))
+    results.extend(Customer.search_in_age(redis, keyword))
     results.extend(Customer.search_in_first_name(redis, keyword))
     results.extend(Customer.search_in_last_name(redis, keyword))
     results.extend(Customer.search_in_email(redis, keyword))
     results.extend(Customer.search_in_address_line1(redis, keyword))
     results.extend(Customer.search_in_address_line2(redis, keyword))
-    results.extend(Customer.search_in_phonenumber(redis, int(keyword)))
+    results.extend(Customer.search_in_phonenumber(redis, keyword))
     answer = [Customer.serialize(customer) for customer in results]
     return make_response(jsonify(answer), HTTP_200_OK)
 	
