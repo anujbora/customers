@@ -138,7 +138,7 @@ def get_customers_by_first_name(first_name):
     return make_response(jsonify(message), rc)
 
 @app.route('/customers/<string:phonenumber>', methods=['GET'])
-def get_customers_by_last_name(phonenumber):
+def get_customers_by_phonenumber(phonenumber):
     customer = Customer.find_by_phonenumber(redis, phonenumber)
     if customer:
         message = customer.serialize()
@@ -203,6 +203,21 @@ def delete_customers(id):
     if customer:
         customer.delete(redis)
     return make_response('', HTTP_204_NO_CONTENT)
+
+######################################################################
+# SEARCH by keyword
+######################################################################	
+@app.route('/customers/search-keyword/<string:keyword>', methods=['GET'])
+def search_by_keyword(keyword):
+    results = []
+    results.extend(Customer.search_in_age(redis, int(keyword)))
+    results.extend(Customer.search_in_first_name(redis, keyword))
+    results.extend(Customer.search_in_last_name(redis, keyword))
+    results.extend(Customer.search_in_email(redis, keyword))
+    results.extend(Customer.search_in_address_line1(redis, keyword))
+    results.extend(Customer.search_in_address_line2(redis, keyword))
+    results.extend(Customer.search_in_phonenumber(redis, int(keyword)))        
+    return results
 
 ######################################################################
 #  U T I L I T Y   F U N C T I O N S
