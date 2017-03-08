@@ -1,6 +1,6 @@
 class Customer(object):
 
-    def __init__(self, id, first_name, last_name, gender, age, email, address_line1, address_line2, phonenumber):
+    def __init__(self, id, first_name, last_name, gender, age, email, address_line1, address_line2, phonenumber,active):
         self.id = id
         self.first_name = first_name
         self.last_name = last_name
@@ -10,7 +10,7 @@ class Customer(object):
         self.address_line1 = address_line1
         self.address_line2 = address_line2
         self.phonenumber = phonenumber
-        self.active = True					#By default, any new customer created is marked as Active
+        self.active = active					#By default, any new customer created is marked as Active
 
     def save(self, redis):
         if self.id == 0:
@@ -34,7 +34,7 @@ class Customer(object):
         id = 0
         if data.has_key('id'):
             id = data['id']
-        return Customer(id, data['first_name'], data['last_name'],data['gender'],data['age'],data['email'],data['address_line1'],data['address_line2'],data['phonenumber'])
+        return Customer(id, data['first_name'], data['last_name'],data['gender'],data['age'],data['email'],data['address_line1'],data['address_line2'],data['phonenumber'],data['active'])
 
     @staticmethod
     def validate(data):
@@ -48,7 +48,6 @@ class Customer(object):
             address_line1 = data['address_line1']
             address_line2 = data['address_line2']
             phonenumber = data['phonenumber']
-            active = data['active']
             valid = True
         except KeyError:
             valid = False
