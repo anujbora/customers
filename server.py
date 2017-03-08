@@ -58,7 +58,13 @@ def search_by_keyword(keyword):
     results.extend(Customer.search_in_address_line1(redis, keyword))
     results.extend(Customer.search_in_address_line2(redis, keyword))
     results.extend(Customer.search_in_phonenumber(redis, keyword))
-    answer = [Customer.serialize(customer) for customer in results]
+    final_results = []
+    list_ids = []
+    for res in results:
+        if res.id not in list_ids:
+            final_results.append(res)
+            list_ids.append(res.id)
+    answer = [Customer.serialize(customer) for customer in final_results]
     return make_response(jsonify(answer), HTTP_200_OK)
 	
 ######################################################################
