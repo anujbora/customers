@@ -131,3 +131,95 @@ class Customer(object):
                 if data['last_name'] == last_name:
                     results.append(Customer.from_dict(data))
         return results
+
+		
+######################################################################
+# SEARCH if keyword is part of the last_name
+######################################################################	
+    @staticmethod
+    def search_in_last_name(redis, last_name):
+        results = []
+        for key in redis.keys():
+            if key != 'index':  # filer out our id index
+                data = redis.hgetall(key)
+                if last_name in data['last_name']:
+                    results.append(Customer.from_dict(data))
+        return results
+		
+######################################################################
+# SEARCH if keyword is part of the first_name
+######################################################################	
+    @staticmethod
+    def search_in_first_name(redis, first_name):
+        results = []
+        for key in redis.keys():
+            if key != 'index':  # filer out our id index
+                data = redis.hgetall(key)
+                if first_name in data['first_name']:
+                    results.append(Customer.from_dict(data))
+        return results
+
+######################################################################
+# SEARCH if keyword is part of the address_line1
+######################################################################	
+    @staticmethod
+    def search_in_address_line1(redis, address_line1):
+        results = []
+        for key in redis.keys():
+            if key != 'index':  # filer out our id index
+                data = redis.hgetall(key)
+                if address_line1 in data['address_line1']:
+                    results.append(Customer.from_dict(data))
+        return results
+
+######################################################################
+# SEARCH if keyword is part of the address_line2
+######################################################################	
+    @staticmethod
+    def search_in_address_line2(redis, address_line2):
+        results = []
+        for key in redis.keys():
+            if key != 'index':  # filer out our id index
+                data = redis.hgetall(key)
+                if address_line2 in data['address_line2']:
+                    results.append(Customer.from_dict(data))
+        return results
+
+######################################################################
+# SEARCH if keyword is part of the email
+######################################################################	
+    @staticmethod
+    def search_in_email(redis, email):
+        results = []
+        for key in redis.keys():
+            if key != 'index':  # filer out our id index
+                data = redis.hgetall(key)
+                if email in data['email']:
+                    results.append(Customer.from_dict(data))
+        return results
+
+######################################################################
+# SEARCH if keyword is part of the phonenumber
+######################################################################	
+    @staticmethod
+    def search_in_phonenumber(redis, phonenumber):
+        results = []
+        for key in redis.keys():
+            if key != 'index':  # filer out our id index
+                data = redis.hgetall(key)
+                if phonenumber in data['phonenumber']:
+                    results.append(Customer.from_dict(data))
+        return results
+
+######################################################################
+# SEARCH if keyword is part of the age
+######################################################################	
+    @staticmethod
+    def search_in_age(redis, age):
+        results = []
+        for key in redis.keys():
+            if key != 'index':  # filer out our id index
+                data = redis.hgetall(key)
+                if age in data['age']:
+                    results.append(Customer.from_dict(data))
+        return results
