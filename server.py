@@ -89,6 +89,66 @@ def get_customers_by_email(email):
 
     return make_response(jsonify(message), rc)
 
+@app.route('/customers/<string:age>', methods=['GET'])
+def get_customers_by_age(age):
+    customer = Customer.find_by_age(redis, age)
+    if customer:
+        message = customer.serialize()
+        rc = HTTP_200_OK
+    else:
+        message = { 'error' : 'customer with Age: %s was not found' % str(age) }
+        rc = HTTP_404_NOT_FOUND
+
+    return make_response(jsonify(message), rc)
+
+@app.route('/customers/<string:gender>', methods=['GET'])
+def get_customers_by_gender(gender):
+    customer = Customer.find_by_gender(redis, gender)
+    if customer:
+        message = customer.serialize()
+        rc = HTTP_200_OK
+    else:
+        message = { 'error' : 'customer as Gender: %s was not found' % str(gender) }
+        rc = HTTP_404_NOT_FOUND
+
+    return make_response(jsonify(message), rc)
+
+@app.route('/customers/<string:last_name>', methods=['GET'])
+def get_customers_by_last_name(last_name):
+    customer = Customer.find_by_last_name(redis, last_name)
+    if customer:
+        message = customer.serialize()
+        rc = HTTP_200_OK
+    else:
+        message = { 'error' : 'customer last_name is: %s was not found' % str(last_name) }
+        rc = HTTP_404_NOT_FOUND
+
+    return make_response(jsonify(message), rc)
+
+@app.route('/customers/<string:last_name>', methods=['GET'])
+def get_customers_by_first_name(first_name):
+    customer = Customer.find_by_first_name(redis, first_name)
+    if customer:
+        message = customer.serialize()
+        rc = HTTP_200_OK
+    else:
+        message = { 'error' : 'customer first_name is: %s was not found' % str(first_name) }
+        rc = HTTP_404_NOT_FOUND
+
+    return make_response(jsonify(message), rc)
+
+@app.route('/customers/<string:phonenumber>', methods=['GET'])
+def get_customers_by_last_name(phonenumber):
+    customer = Customer.find_by_phonenumber(redis, phonenumber)
+    if customer:
+        message = customer.serialize()
+        rc = HTTP_200_OK
+    else:
+        message = { 'error' : 'customer with phonenumber: %s was not found' % str(phonenumber) }
+        rc = HTTP_404_NOT_FOUND
+
+    return make_response(jsonify(message), rc)
+
 ######################################################################
 # ADD A NEW customer
 ######################################################################

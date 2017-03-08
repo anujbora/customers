@@ -83,11 +83,51 @@ class Customer(object):
         return results
 
     @staticmethod
+    def find_by_first_name(redis, first_name):
+        results = []
+        for key in redis.keys():
+            if key != 'index':  # filer out our id index
+                data = redis.hgetall(key)
+                if data['first_name'] == first_name:
+                    results.append(Customer.from_dict(data))
+        return results
+
+    @staticmethod
     def find_by_gender(redis, gender):
         results = []
         for key in redis.keys():
             if key != 'index':  # filer out our id index
                 data = redis.hgetall(key)
                 if data['gender'] == gender:
+                    results.append(Customer.from_dict(data))
+        return results
+
+    @staticmethod
+    def find_by_age(redis, age):
+        results = []
+        for key in redis.keys():
+            if key != 'index':  # filer out our id index
+                data = redis.hgetall(key)
+                if data['age'] == age:
+                    results.append(Customer.from_dict(data))
+        return results
+
+    @staticmethod
+    def find_by_phonenumber(redis, phonenumber):
+        results = []
+        for key in redis.keys():
+            if key != 'index':  # filer out our id index
+                data = redis.hgetall(key)
+                if data['phonenumber'] == phonenumber:
+                    results.append(Customer.from_dict(data))
+        return results
+
+    @staticmethod
+    def find_by_last_name(redis, last_name):
+        results = []
+        for key in redis.keys():
+            if key != 'index':  # filer out our id index
+                data = redis.hgetall(key)
+                if data['last_name'] == last_name:
                     results.append(Customer.from_dict(data))
         return results
