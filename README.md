@@ -1,79 +1,180 @@
-# Bluemix Python Web application
+# Customer REST API Service for E-Commerce website
 This repository is part of lab for the *NYU DevOps* class for Spring 2017, [CSCI-GA.3033-013](http://cs.nyu.edu/courses/spring17/CSCI-GA.3033-013/)
 
-The sample code is using [Flask microframework](http://flask.pocoo.org/) and is intented to test the Python support on [IBM's Bluemix](https://bluemix.net/) environment which is based on Cloud Foundry. It also uses [Redis](https://redis.io) as a database for storing JSON objects.
+This RESTful customer API contains the basic CRUD operation and some actions as follow:
 
-IBM Bluemix contains the Python buildpack from [Cloud Foundry](https://github.com/cloudfoundry/python-buildpack) and so will be auto-detected as long as a requirements.txt or a setup.py is located in the root of your application.
+## GET
 
-Follow the steps below to get the lab code and see how to deploy manually.
+**LIST all customers data**
 
-## Prerequisite Installation using Vagrant
-The easiest way to use this lab is with Vagrant and VirtualBox. if you don't have this software the first step is down download and install [VirtualBox](https://www.virtualbox.org/) and [Vagrant](https://www.vagrantup.com/)
+Go to https://nyu-customers-service-alpha.mybluemix.net/customers in browser to check out all customers information. The data format is like:
 
-## Get the lab code
-From a terminal navigate to a location where you want this application code to be downloaded to and issue:
 ```bash
-    $ git clone https://github.com/nyu-devops/lab-bluemix-cf.git
-    $ cd lab-bluemix-cf
-    $ vagrant up
-    $ vagrant ssh
-    $ cd /vagrant
-```
-This will place you into an Ubuntu VM all set to run the code.
-
-You can run the tests to make sure that the code works with the following command:
-
-    $ nosetests -v --rednose --nologcapture
-
-You can run the code to test it out in your browser with the following command:
-
-    $ python server.py
-
-You should be able to see it at: http://localhost:5000/
-
-When you are done, you can use `Ctrl+C` to stop the server and then exit and shut down the vm with:
-
-## Deploy to Bluemix manually
-Before you can deploy this applicaiton to Bluemix you MUST edit the `manifest.yml` file and change the name of the application to something unique. I recommend changng the last two letters to your initials as a start. If that doesnt work, start adding numbers to make it unique.
-
-Then from a terminal login into Bluemix and set the api endpoint to the Bluemix region you wish to deploy to:
-```script
-cf login -a api.ng.bluemix.net
-```
-The login will ask you for you `email`(username) and `password`, plus the `organisation` and `space` if there is more than one to choose from.
-
-From the root directory of the application code execute the following to deploy the application to Bluemix. (By default the `route` (application URL) will be based on your application name so make sure your application name is unique or use the -n option on the cf push command to define your hostname)
-```script
-cf push <YOUR_APP_NAME> -m 64M
-```
-to deploy when you don't have a requirements.txt or setup.py then use:
-```script
-cf push <YOUR_APP_NAME> -m 64M -b https://github.com/cloudfoundry/python-buildpack
-```
-to deploy with a different hostname to the app name:
-```script
-cf push <YOUR_APP_NAME> -m 64M -n <YOUR_HOST_NAME>
+    {
+        active: "True",
+        address_line1: "Hakunamatata",
+        address_line2: "Hawaii",
+        age: "40",
+        email: "ajolie@jolie.com",
+        first_name: "Angelina",
+        gender: "F",
+        id: "5",
+        last_name: "Jolie",
+        phonenumber: ""
+    }
 ```
 
-## View App
-Once the application is deployed and started open a web browser and point to the application route defined at the end of the `cf push` command i.e. http://lab-bluemix-xx.mybluemix.net/. This will execute the code under the `/` app route defined in the `server.py` file. Navigate to `/pets` to see a list of pets returned as JSON objects.
+**Query the customer information by attribute**
 
-## Structure of application
-**Procfile** - Contains the command to run when you application starts on Bluemix. It is represented in the form `web: <command>` where `<command>` in this sample case is to run the `py` command and passing in the the `server.py` script.
+Go to https://nyu-customers-service-alpha.mybluemix.net/customers?attribute=abc in browser and substitute 'attribute' into the attribute you want to search and subsitute 'abc' into the content you want to find.
 
-**requirements.txt** - Contains the external python packages that are required by the application. These will be downloaded from the [python package index](https://pypi.python.org/pypi/) and installed via the python package installer (pip) during the buildpack's compile stage when you execute the cf push command. In this sample case we wish to download the [Flask package](https://pypi.python.org/pypi/Flask) at version 0.12 and [Redis package](https://pypi.python.org/pypi/Redis) at version greater than or equal to 2.10
+For instance, enter https://nyu-customers-service-alpha.mybluemix.net/customers?gender=F in browser and get results:
 
-**runtime.txt** - Controls which python runtime to use. In this case we want to use 2.7.9.
+    [
+        {
+            active: "True",
+            address_line1: "Hakunamatata",
+            address_line2: "Hawaii",
+            age: "40",
+            email: "ajolie@jolie.com",
+            first_name: "Angelina",
+            gender: "F",
+            id: "5",
+            last_name: "Jolie",
+            phonenumber: ""
+        },
+        {
+            active: "True",
+            address_line1: "Hollywood",
+            address_line2: "Los Angeles",
+            age: "26",
+            email: "kstew@stew.com",
+            first_name: "Kristen",
+            gender: "F",
+            id: "4",
+            last_name: "Stewart",
+            phonenumber: ""
+        }
+    ]
+
+**Retrieves a customer from the DB using an ID**
+
+Go to https://nyu-customers-service-alpha.mybluemix.net/customers/{id} in browser and substitute '{id}' into the id number of customer.
+
+For instance, enter https://nyu-customers-service-alpha.mybluemix.net/customers/5 to check the customer whose id is 5
+
+**Retrieves all customers which contain the searched keyword**
+
+This function is used to search all customers whose information contains the keyword whether the keyword is complete or not.
+**Attention** This search is an case sensitive search.
+Go to https://nyu-customers-service-alpha.mybluemix.net/customers/search-keyword/{content} in browser and substitue the '{content}' into any content to be searched.
+
+For instance, enter https://nyu-customers-service-alpha.mybluemix.net/customers/search-keyword/wood to search customers with wood and get results:
+
+```bash
+  [
+    {
+        active: "True",
+        address_line1: "Pacific Drive",
+        address_line2: "USA",
+        age: "43",
+        email: "woodywoods@woods.com",
+        first_name: "Tiger",
+        gender: "M",
+        id: "6",
+        last_name: "Woods",
+        phonenumber: ""
+    },
+    {
+        active: "True",
+        address_line1: "Hollywood",
+        address_line2: "Los Angeles",
+        age: "26",
+        email: "kstew@stew.com",
+        first_name: "Kristen",
+        gender: "F",
+        id: "4",
+        last_name: "Stewart",
+        phonenumber: ""
+    },
+    {
+        active: "True",
+        address_line1: "Hollywood Boulevard",
+        address_line2: "",
+        age: "51",
+        email: "jstatam@gmail.com",
+        first_name: "Jason",
+        gender: "M",
+        id: "2",
+        last_name: "Statham",
+        phonenumber: ""
+    }
+]
+```
+
+## PUT
+
+**Activate the customer**
+
+Sometimes a customer may be autherized to be the user of the website so that we design an action to activate the customer.
+Do PUT in https://nyu-customers-service-alpha.mybluemix.net/customers/activate/{id} in RESTful client and substitute the '{id}' into the customer id. The the status of active of that customer will be True after the action.
+
+For instance: 
+```bash
+    {
+        active: "True",
+        address_line1: "Hollywood Boulevard",
+        address_line2: "",
+        age: "51",
+        email: "jstatam@gmail.com",
+        first_name: "Jason",
+        gender: "M",
+        id: "2",
+        last_name: "Statham",
+        phonenumber: ""
+    }
+```
+
+**Deactivate the customer**
+
+Sometimes a customer may be unautherized to be the user of the website so that we design an action to deactivate the customer.
+Do PUT  https://nyu-customers-service-alpha.mybluemix.net/customers/deactivate/{id} in RESTful client and substitute the '{id}' into the customer id. The the status of active of that customer will be False after the action.
+
+For instance: 
+```bash
+    {
+        active: "False",
+        address_line1: "Hollywood Boulevard",
+        address_line2: "",
+        age: "51",
+        email: "jstatam@gmail.com",
+        first_name: "Jason",
+        gender: "M",
+        id: "2",
+        last_name: "Statham",
+        phonenumber: ""
+    }
+```
+
+**Updates a customer using an ID**
+
+Do PUT  https://nyu-customers-service-alpha.mybluemix.net/customers/{id} in RESTful client and substitute the '{id}' into the customer id. Then the content of that customer will be updated.
+
+## DELETE
+
+Do DELETE https://nyu-customers-service-alpha.mybluemix.net/customers/{id} in RESTful client and substitute the '{id}' into the customer id. Then the content of that customer will be deleted.
+
+## POST
+
+Do POST https://nyu-customers-service-alpha.mybluemix.net/customers in RESTful client Then the content of that customer will be added.
+
+
+
 
 **README.md** - this readme.
 
 **manifest.yml** - Controls how the app will be deployed in Bluemix and specifies memory and other services like Redis that are needed to be bound to it.
 
-**server.py** - the python application script. This is implemented as a simple [Flask](http://flask.pocoo.org/) application. The routes are defined in the application using the @app.route() calls. This application has a `/` route and a `/pets` route defined. The application deployed to Bluemix needs to listen to the port defined by the VCAP_APP_PORT environment variable as seen here:
-```python
-port = os.getenv('VCAP_APP_PORT', '5000')
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=int(port))
-```
+**server.py** - the python application script. This is implemented as a simple [Flask](http://flask.pocoo.org/) application. The routes are defined in the application using the @app.route() calls. 
 
 This is the port given to your application so that http requests can be routed to it. If the property is not defined then it falls back to port 5000 allowing you to run this sample application locally.
