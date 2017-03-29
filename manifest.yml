@@ -3,8 +3,8 @@ applications:
   memory: 64M
   instances: 1
   domain: mybluemix.net
-  name: nyu-customers-service-alpha
-  host: nyu-customers-service-alpha
+  name: nyu-devops-Alpha
+  host: nyu-devops-Alpha
   disk_quota: 1024M
   buildpack: python_buildpack
   services:
