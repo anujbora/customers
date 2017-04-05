@@ -47,7 +47,7 @@ def index():
 
 ######################################################################
 # SEARCH by keyword
-######################################################################	
+######################################################################
 @app.route('/customers/search-keyword/<string:keyword>', methods=['GET'])
 def search_by_keyword(keyword):
     results = []
@@ -66,11 +66,11 @@ def search_by_keyword(keyword):
             list_ids.append(res.id)
     answer = [Customer.serialize(customer) for customer in final_results]
     return make_response(jsonify(answer), HTTP_200_OK)
-	
+
 ######################################################################
 # ACTIVATE a customer
-######################################################################	
-@app.route('/customers/activate/<int:id>', methods=['PUT'])
+######################################################################
+@app.route('/customers/<int:id>/activate', methods=['PUT'])
 def activate_customer(id):
     customer = Customer.find(redis, id)
     if customer:
@@ -82,11 +82,11 @@ def activate_customer(id):
         message = { 'error' : 'Customer %s was not found' % id }
         rc = HTTP_404_NOT_FOUND
     return make_response(jsonify(message), rc)
-	
+
 ######################################################################
 # DEACTIVATE a customer
-######################################################################	
-@app.route('/customers/deactivate/<int:id>', methods=['PUT'])
+######################################################################
+@app.route('/customers/<int:id>/deactivate', methods=['PUT'])
 def deactivate_customer(id):
     customer = Customer.find(redis, id)
     if customer:
@@ -101,13 +101,13 @@ def deactivate_customer(id):
 
 ######################################################################
 # FLUSH all customer data
-######################################################################	
+######################################################################
 @app.route('/customers/flushall', methods=['PUT'])
 def data_reset():
     redis.flushall()
     message = { 'info' : 'All customer data has been flushed' }
     rc = HTTP_200_OK
-    return make_response(jsonify(message), rc)	
+    return make_response(jsonify(message), rc)
 
 ######################################################################
 # LIST ALL customers
