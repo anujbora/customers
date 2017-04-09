@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/devops-alpha-s17/customers.svg?branch=master)](https://travis-ci.org/devops-alpha-s17/customers)
+[![Build Status](https://travis-ci.org/devops-alpha-s17/customers.svg?branch=master)](https://travis-ci.org/devops-alpha-s17/customers) [![codecov](https://codecov.io/gh/devops-alpha-s17/customers/branch/master/graph/badge.svg)](https://codecov.io/gh/devops-alpha-s17/customers)
+
 
 # Customer REST API Service for E-Commerce website
 This repository is part of lab for the *NYU DevOps* class for Spring 2017, [CSCI-GA.3033-013](http://cs.nyu.edu/courses/spring17/CSCI-GA.3033-013/)
