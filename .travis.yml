@@ -21,7 +21,7 @@ script:
   # - coverage run tests/test_server.py
 
 after_success:
-  #- codecov
+  - codecov
 
 services:
   - redis-server
