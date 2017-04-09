@@ -70,7 +70,7 @@ def search_by_keyword(keyword):
 ######################################################################
 # ACTIVATE a customer
 ######################################################################
-@app.route('/customers/<int:id>/activate', methods=['PUT'])
+@app.route('/customers/activate/<int:id>', methods=['PUT'])
 def activate_customer(id):
     customer = Customer.find(redis, id)
     if customer:
@@ -86,7 +86,7 @@ def activate_customer(id):
 ######################################################################
 # DEACTIVATE a customer
 ######################################################################
-@app.route('/customers/<int:id>/deactivate', methods=['PUT'])
+@app.route('/customers/deactivate/<int:id>', methods=['PUT'])
 def deactivate_customer(id):
     customer = Customer.find(redis, id)
     if customer:
@@ -223,7 +223,7 @@ def delete_customers(id):
 #  U T I L I T Y   F U N C T I O N S
 ######################################################################
 def data_load(payload):
-    customers = customer(0, payload['first_name'], payload['last_name'],payload['gender'],payload['age'],payload['email'],payload['address_line1'],payload['address_line2'],payload['phonenumber'])
+    customers = Customer(0, payload['first_name'], payload['last_name'],payload['gender'],payload['age'],payload['email'],payload['address_line1'],payload['address_line2'],payload['phonenumber'], True)
     customers.save(redis)
 
 def data_reset():

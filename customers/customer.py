@@ -1,6 +1,6 @@
 class Customer(object):
 
-    def __init__(self, id, first_name, last_name, gender, age, email, address_line1, address_line2, phonenumber,active):
+    def __init__(self, id, first_name, last_name, gender, age, email, address_line1, address_line2, phonenumber, active):
         self.id = id
         self.first_name = first_name
         self.last_name = last_name
@@ -132,7 +132,7 @@ class Customer(object):
                 if data['active'] == active:
                     results.append(Customer.from_dict(data))
         return results
-		
+
     @staticmethod
     def find_by_last_name(redis, last_name):
         results = []
@@ -143,10 +143,10 @@ class Customer(object):
                     results.append(Customer.from_dict(data))
         return results
 
-		
+
 ######################################################################
 # SEARCH if keyword is part of the last_name
-######################################################################	
+######################################################################
     @staticmethod
     def search_in_last_name(redis, last_name):
         results = []
@@ -156,10 +156,10 @@ class Customer(object):
                 if last_name in data['last_name']:
                     results.append(Customer.from_dict(data))
         return results
-		
+
 ######################################################################
 # SEARCH if keyword is part of the first_name
-######################################################################	
+######################################################################
     @staticmethod
     def search_in_first_name(redis, first_name):
         results = []
@@ -172,7 +172,7 @@ class Customer(object):
 
 ######################################################################
 # SEARCH if keyword is part of the address_line1
-######################################################################	
+######################################################################
     @staticmethod
     def search_in_address_line1(redis, address_line1):
         results = []
@@ -185,7 +185,7 @@ class Customer(object):
 
 ######################################################################
 # SEARCH if keyword is part of the address_line2
-######################################################################	
+######################################################################
     @staticmethod
     def search_in_address_line2(redis, address_line2):
         results = []
@@ -198,7 +198,7 @@ class Customer(object):
 
 ######################################################################
 # SEARCH if keyword is part of the email
-######################################################################	
+######################################################################
     @staticmethod
     def search_in_email(redis, email):
         results = []
@@ -211,7 +211,7 @@ class Customer(object):
 
 ######################################################################
 # SEARCH if keyword is part of the phonenumber
-######################################################################	
+######################################################################
     @staticmethod
     def search_in_phonenumber(redis, phonenumber):
         results = []
@@ -224,7 +224,7 @@ class Customer(object):
 
 ######################################################################
 # SEARCH if keyword is part of the age
-######################################################################	
+######################################################################
     @staticmethod
     def search_in_age(redis, age):
         results = []
