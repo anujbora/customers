@@ -60,6 +60,10 @@ class TestCustomerServer(unittest.TestCase):
         data = json.loads(resp.data)
         self.assertEqual (data['first_name'], 'Andrea')
 
+    def test_get_customer_not_found(self):
+        resp = self.app.get('/customers/0')
+        self.assertEqual( resp.status_code, HTTP_404_NOT_FOUND )
+
 ######################################################################
 # Utility functions
 ######################################################################
