@@ -48,6 +48,18 @@ class TestCustomerServer(unittest.TestCase):
         data = json.loads(resp.data)
         self.assertTrue( len(data) > 0 )
 
+    def test_index(self):
+        resp = self.app.get('/')
+        self.assertEqual( resp.status_code, HTTP_200_OK )
+        self.assertTrue ('Customer REST API Service' in resp.data)
+
+    def test_get_customer(self):
+        resp = self.app.get('/customers/1')
+        #print 'resp_data: ' + resp.data
+        self.assertEqual( resp.status_code, HTTP_200_OK )
+        data = json.loads(resp.data)
+        self.assertEqual (data['first_name'], 'Andrea')
+
 ######################################################################
 # Utility functions
 ######################################################################
