@@ -91,6 +91,14 @@ class TestCustomerServer(unittest.TestCase):
         new_count = self.get_customer_count()
         self.assertEqual( new_count, customer_count - 1)
 
+    def test_update_customer_not_found(self):
+        new_kitty = {"first_name": "Andrea", "last_name": "Pirlo", "gender": "M",
+        "age": "35", "email" : "a@p.com", "address_line1": "Milan",
+        "address_line2": "Italy", "phonenumber": "123456789"}
+        data = json.dumps(new_kitty)
+        resp = self.app.put('/customers/0', data=data, content_type='application/json')
+        self.assertEquals( resp.status_code, HTTP_404_NOT_FOUND )
+
 ######################################################################
 # Utility functions
 ######################################################################

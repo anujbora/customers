@@ -190,8 +190,8 @@ def create_customers():
 @app.route('/customers/<int:id>', methods=['PUT'])
 def update_customers(id):
     customer = Customer.find(redis, id)
-    active = customer.active
     if customer:
+        active = customer.active
         payload = request.get_json()
         if Customer.validate(payload):
             customer = Customer.from_dict(payload)
