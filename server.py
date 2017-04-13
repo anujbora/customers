@@ -100,16 +100,6 @@ def deactivate_customer(id):
     return make_response(jsonify(message), rc)
 
 ######################################################################
-# FLUSH all customer data
-######################################################################
-@app.route('/customers/flushall', methods=['PUT'])
-def data_reset():
-    redis.flushall()
-    message = { 'info' : 'All customer data has been flushed' }
-    rc = HTTP_200_OK
-    return make_response(jsonify(message), rc)
-
-######################################################################
 # LIST ALL customers
 ######################################################################
 @app.route('/customers', methods=['GET'])
@@ -147,6 +137,7 @@ def list_customers():
 
     results = [Customer.serialize(customer) for customer in customers]
     return make_response(jsonify(results), HTTP_200_OK)
+    
 ######################################################################
 # RETRIEVE A customer
 ######################################################################
