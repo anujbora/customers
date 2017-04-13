@@ -74,6 +74,23 @@ class TestCustomerServer(unittest.TestCase):
         new_count = self.get_customer_count()
         self.assertEqual( new_count, customer_count - 1)
 
+    def test_repeated_delete_customer(self):
+        # save the current number of customers for later comparison
+        customer_count = self.get_customer_count()
+        # delete a customer
+        resp = self.app.delete('/customers/2', content_type='application/json')
+        self.assertEqual( resp.status_code, HTTP_204_NO_CONTENT )
+        self.assertEqual( len(resp.data), 0 )
+        new_count = self.get_customer_count()
+        self.assertEqual( new_count, customer_count - 1)
+
+        #delete same customer again
+        resp = self.app.delete('/customers/2', content_type='application/json')
+        self.assertEqual( resp.status_code, HTTP_204_NO_CONTENT )
+        self.assertEqual( len(resp.data), 0 )
+        new_count = self.get_customer_count()
+        self.assertEqual( new_count, customer_count - 1)
+
 ######################################################################
 # Utility functions
 ######################################################################
