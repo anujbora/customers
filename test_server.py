@@ -103,10 +103,13 @@ class TestCustomerServer(unittest.TestCase):
         resp = self.app.get('/customers/search-keyword/com', content_type='application/json')
         self.assertEqual( resp.status_code, HTTP_200_OK )
         #self.assertEqual( len(resp.data), 2 )
+        #data = json.loads(resp.data)
+        #self.assertEqual( len(data), 2 )
+        self.assertTrue ('Andrea' in resp.data)
+        self.assertTrue ('Theirry' in resp.data)
+
         data = json.loads(resp.data)
         self.assertEqual( len(data), 2 )
-        self.assertEqual (data[0]['first_name'], 'Andrea')
-        self.assertEqual (data[1]['first_name'], 'Theirry')
 
 
 ######################################################################
