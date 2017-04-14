@@ -92,12 +92,22 @@ class TestCustomerServer(unittest.TestCase):
         self.assertEqual( new_count, customer_count - 1)
 
     def test_update_customer_not_found(self):
-        new_kitty = {"first_name": "Andrea", "last_name": "Pirlo", "gender": "M",
+        new_customer = {"first_name": "Andrea", "last_name": "Pirlo", "gender": "M",
         "age": "35", "email" : "a@p.com", "address_line1": "Milan",
         "address_line2": "Italy", "phonenumber": "123456789"}
-        data = json.dumps(new_kitty)
+        data = json.dumps(new_customer)
         resp = self.app.put('/customers/0', data=data, content_type='application/json')
         self.assertEquals( resp.status_code, HTTP_404_NOT_FOUND )
+
+    def test_search_by_keyword(self):
+        resp = self.app.get('/customers/search-keyword/com', content_type='application/json')
+        self.assertEqual( resp.status_code, HTTP_200_OK )
+        #self.assertEqual( len(resp.data), 2 )
+        data = json.loads(resp.data)
+        self.assertEqual( len(data), 2 )
+        self.assertEqual (data[0]['first_name'], 'Andrea')
+        self.assertEqual (data[1]['first_name'], 'Theirry')
+
 
 ######################################################################
 # Utility functions
