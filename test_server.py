@@ -40,6 +40,10 @@ class TestCustomerServer(unittest.TestCase):
         "age": "30", "email" : "t@h.com", "address_line1": "London",
         "address_line2": "England", "phonenumber": "444"})
 
+        server.data_load({"first_name": "Ronaldinho", "last_name": "Gaucho", "gender": "M",
+        "age": "40", "email" : "r@g.br", "address_line1": "Barcelona",
+        "address_line2": "Spain", "phonenumber": "999"})
+
         #server.data_load({"name": "kitty", "category": "cat"})
 
     def test_get_customer_list(self):
@@ -102,15 +106,17 @@ class TestCustomerServer(unittest.TestCase):
     def test_search_by_keyword(self):
         resp = self.app.get('/customers/search-keyword/com', content_type='application/json')
         self.assertEqual( resp.status_code, HTTP_200_OK )
-        #self.assertEqual( len(resp.data), 2 )
-        #data = json.loads(resp.data)
-        #self.assertEqual( len(data), 2 )
         self.assertTrue ('Andrea' in resp.data)
         self.assertTrue ('Theirry' in resp.data)
-
         data = json.loads(resp.data)
         self.assertEqual( len(data), 2 )
 
+    def test_get_customer_list_by_email(self):
+        resp = self.app.get('/customers?email=a@p.com')
+        self.assertEqual( resp.status_code, status.HTTP_200_OK )
+        data = json.loads(resp.data)
+        self.assertEqual( len(data), 1 )
+        self.assertTrue('Andrea' in resp.data)
 
 ######################################################################
 # Utility functions
