@@ -118,6 +118,23 @@ class TestCustomerServer(unittest.TestCase):
         self.assertEqual( len(data), 1 )
         self.assertTrue('Andrea' in resp.data)
 
+    def test_get_customer_list_by_name(self):
+        resp = self.app.get('/customers?first-name=Andrea')
+        self.assertEqual( resp.status_code, status.HTTP_200_OK )
+        data = json.loads(resp.data)
+        self.assertEqual( len(data), 1 )
+        self.assertTrue('Andrea' in resp.data)
+        resp = self.app.get('/customers?last-name=Pirlo')
+        self.assertEqual( resp.status_code, status.HTTP_200_OK )
+        data = json.loads(resp.data)
+        self.assertEqual( len(data), 1 )
+        self.assertTrue('Andrea' in resp.data)
+        resp = self.app.get('/customers?first-name=Andrea&last-name=Pirlo')
+        self.assertEqual( resp.status_code, status.HTTP_200_OK )
+        data = json.loads(resp.data)
+        self.assertEqual( len(data), 1 )
+        self.assertTrue('Andrea' in resp.data)
+
 ######################################################################
 # Utility functions
 ######################################################################
