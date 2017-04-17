@@ -106,12 +106,12 @@ def deactivate_customer(id):
 def list_customers():
     customers = []
     email = request.args.get('email')
-    last_name = request.args.get('last_name')
-    first_name = request.args.get('first_name')
+    last_name = request.args.get('last-name')
+    first_name = request.args.get('first-name')
     age = request.args.get('age')
     gender = request.args.get('gender')
-    address_line1 = request.args.get('address_line1')
-    address_line2 = request.args.get('address_line2')
+    address_line1 = request.args.get('address-line1')
+    address_line2 = request.args.get('address-line2')
     phonenumber = request.args.get('phonenumber')
     active = request.args.get('active')
     if email:
@@ -137,7 +137,7 @@ def list_customers():
 
     results = [Customer.serialize(customer) for customer in customers]
     return make_response(jsonify(results), HTTP_200_OK)
-    
+
 ######################################################################
 # RETRIEVE A customer
 ######################################################################
