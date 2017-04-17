@@ -135,6 +135,13 @@ class TestCustomerServer(unittest.TestCase):
         self.assertEqual( len(data), 1 )
         self.assertTrue('Andrea' in resp.data)
 
+    def test_get_customer_list_by_age(self):
+        resp = self.app.get('/customers?age=40')
+        self.assertEqual( resp.status_code, status.HTTP_200_OK )
+        data = json.loads(resp.data)
+        self.assertEqual( len(data), 1 )
+        self.assertTrue('Ronaldinho' in resp.data)
+
 ######################################################################
 # Utility functions
 ######################################################################
