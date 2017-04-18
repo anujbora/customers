@@ -135,16 +135,50 @@ class TestCustomerServer(unittest.TestCase):
         self.assertEqual( len(data), 1 )
         self.assertTrue('Andrea' in resp.data)
 
+    def test_create_customer(self):
+        
+         # save the current number of customers for later comparrison
+         customer_count = self.get_customer_count()
+         # add a new customer
+         new_customer =  {"first_name": "Lionel", "last_name": "Messi", "gender": "M",
+        "age": "29", "email" : "messi@barca.com", "address_line1": "Camp Nou",
+        "address_line2": "Barcelona", "phonenumber": "666"}
+         data = json.dumps(new_customer)
+         resp = self.app.post('/customers', data=data, content_type='application/json')
+         self.assertEqual( resp.status_code, status.HTTP_201_CREATED )
+         # Make sure location header is set
+         location = resp.headers.get('Location', None)
+         self.assertTrue( location != None)
+         # Check the data is correct
+         new_json = json.loads(resp.data)
+         self.assertEqual (new_json['first_name'], 'Lionel')
+         # check that count has gone up and includes Lionel
+         resp = self.app.get('/customers')
+         # print 'resp_data(2): ' + resp.data
+         data = json.loads(resp.data)
+         self.assertEqual( resp.status_code, status.HTTP_200_OK )
+         self.assertEqual( len(data), customer_count + 1 )
+         self.assertIn(new_json,data)
+         # checking the error response when adding a faulty customer
+         faulty_customer = {"fname":"Dinosaur"}
+         data = json.dumps(faulty_customer)
+         resp = self.app.post('/customers', data=data, content_type='application/json')
+         self.assertEqual( resp.status_code, status.HTTP_400_BAD_REQUEST )
+         new_faulty_json = json.loads(resp.data)
+         # make sure the correct error message is put out
+         self.assertEqual (new_faulty_json['error'], 'Data is not valid')
+
 ######################################################################
 # Utility functions
 ######################################################################
 
     def get_customer_count(self):
-        # save the current number of pets
-        resp = self.app.get('/customers')
-        self.assertEqual( resp.status_code, HTTP_200_OK )
-        data = json.loads(resp.data)
-        return len(data)
+         # save the current number of customers
+         resp = self.app.get('/customers')
+         self.assertEqual( resp.status_code, status.HTTP_200_OK )
+         data = json.loads(resp.data)
+         return len(data)
+
 ######################################################################
 #   M A I N
 ######################################################################

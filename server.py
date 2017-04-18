@@ -164,7 +164,9 @@ def create_customers():
         customer = Customer(id, payload['first_name'], payload['last_name'],payload['gender'],payload['age'],payload['email'],payload['address_line1'],payload['address_line2'],payload['phonenumber'],True)
         customer.save(redis)
         id = customer.id
-        message = customer.serialize()
+        cust = Customer.find(redis, id) # added so that the response body of POST matches that of the GET and we compare the results in the TDD in the same format as the json returned by Redis
+        #message = customer.serialize()
+        message = cust.serialize()
         rc = HTTP_201_CREATED
     else:
         message = { 'error' : 'Data is not valid' }
