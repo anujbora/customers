@@ -161,7 +161,7 @@ def create_customers():
     id = 0
     payload = request.get_json()
     if Customer.validate(payload):
-        customer = Customer(id, payload['first_name'], payload['last_name'],payload['gender'],payload['age'],payload['email'],payload['address_line1'],payload['address_line2'],payload['phonenumber'],True)
+        customer = Customer(id, payload['first_name'], payload['last_name'],payload['gender'],payload['age'],payload['email'],payload['address_line1'],payload['address_line2'],payload['phonenumber'])
         customer.save(redis)
         id = customer.id
         cust = Customer.find(redis, id) # added so that the response body of POST matches that of the GET and we compare the results in the TDD in the same format as the json returned by Redis
@@ -216,7 +216,7 @@ def delete_customers(id):
 #  U T I L I T Y   F U N C T I O N S
 ######################################################################
 def data_load(payload):
-    customers = Customer(0, payload['first_name'], payload['last_name'],payload['gender'],payload['age'],payload['email'],payload['address_line1'],payload['address_line2'],payload['phonenumber'], True)
+    customers = Customer(0, payload['first_name'], payload['last_name'],payload['gender'],payload['age'],payload['email'],payload['address_line1'],payload['address_line2'],payload['phonenumber'])
     customers.save(redis)
 
 def data_reset():
