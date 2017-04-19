@@ -243,6 +243,12 @@ class TestCustomerServer(unittest.TestCase):
         self.assertEqual (data['first_name'], 'Andrea')
         self.assertEqual (data['active'], True)
 
+    def test_activate_invalid_customer(self):
+        resp = self.app.put('/customers/activate/99')
+        self.assertEqual( resp.status_code, HTTP_404_NOT_FOUND )
+        data = json.loads(resp.data)
+        self.assertTrue('Customer 99 was not found' in resp.data)
+
 ######################################################################
 # Utility functions
 ######################################################################
