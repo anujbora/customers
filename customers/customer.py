@@ -154,7 +154,7 @@ class Customer(object):
         return results
 
     @staticmethod
-    def find_by_address_line2(redis, address_line1):
+    def find_by_address_line2(redis, address_line2):
         results = []
         for key in redis.keys():
             if key != 'index':  # filer out our id index
