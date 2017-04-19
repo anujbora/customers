@@ -220,6 +220,13 @@ class TestCustomerServer(unittest.TestCase):
         data = json.loads(resp.data)
         self.assertEqual( len(data), 0 )
 
+    def test_deactivate_valid_customer(self):
+        resp = self.app.put('/customers/deactivate/1')
+        self.assertEqual( resp.status_code, HTTP_200_OK )
+        data = json.loads(resp.data)
+        self.assertEqual (data['first_name'], 'Andrea')
+        self.assertEqual (data['active'], False)
+
 ######################################################################
 # Utility functions
 ######################################################################
