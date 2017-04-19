@@ -233,6 +233,16 @@ class TestCustomerServer(unittest.TestCase):
         data = json.loads(resp.data)
         self.assertTrue('Customer 99 was not found' in resp.data)
 
+    def test_activate_valid_customer(self):
+        resp = self.app.put('/customers/deactivate/1')
+        data = json.loads(resp.data)
+        self.assertEqual (data['active'], False)
+        resp = self.app.put('/customers/activate/1')
+        self.assertEqual( resp.status_code, HTTP_200_OK )
+        data = json.loads(resp.data)
+        self.assertEqual (data['first_name'], 'Andrea')
+        self.assertEqual (data['active'], True)
+
 ######################################################################
 # Utility functions
 ######################################################################
