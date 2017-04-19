@@ -187,11 +187,16 @@ class TestCustomerServer(unittest.TestCase):
         self.assertEqual( len(data), 0 )
 
     def test_get_customer_list_by_address(self):
-        resp = self.app.get('/customers?address-line1=London&address-line2=England')
+        resp = self.app.get('/customers?address-line1=London')
         self.assertEqual( resp.status_code, status.HTTP_200_OK )
         data = json.loads(resp.data)
         self.assertEqual( len(data), 1 )
         self.assertTrue('Henry' in resp.data)
+        resp = self.app.get('/customers?address-line2=Italy')
+        self.assertEqual( resp.status_code, status.HTTP_200_OK )
+        data = json.loads(resp.data)
+        self.assertEqual( len(data), 1 )
+        self.assertTrue('Pirlo' in resp.data)
 
     def test_get_customer_list_by_phone(self):
         resp = self.app.get('/customers?phonenumber=123')
@@ -200,6 +205,17 @@ class TestCustomerServer(unittest.TestCase):
         self.assertEqual( len(data), 1 )
         self.assertTrue('Andrea' in resp.data)
         resp = self.app.get('/customers?phonenumber=321')
+        self.assertEqual( resp.status_code, status.HTTP_200_OK )
+        data = json.loads(resp.data)
+        self.assertEqual( len(data), 0 )
+
+    def test_get_customer_list_by_activity(self):
+        resp = self.app.get('/customers?active=True')
+        self.assertEqual( resp.status_code, status.HTTP_200_OK )
+        data = json.loads(resp.data)
+        self.assertEqual( len(data), 3 )
+        self.assertTrue('Andrea' in resp.data)
+        resp = self.app.get('/customers?active=False')
         self.assertEqual( resp.status_code, status.HTTP_200_OK )
         data = json.loads(resp.data)
         self.assertEqual( len(data), 0 )
