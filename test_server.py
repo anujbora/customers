@@ -186,6 +186,12 @@ class TestCustomerServer(unittest.TestCase):
         data = json.loads(resp.data)
         self.assertEqual( len(data), 0 )
 
+    def test_get_customer_list_by_address(self):
+        resp = self.app.get('/customers?address-line1=London&address-line2=England')
+        self.assertEqual( resp.status_code, status.HTTP_200_OK )
+        data = json.loads(resp.data)
+        self.assertEqual( len(data), 1 )
+        self.assertTrue('Henry' in resp.data)
 
 ######################################################################
 # Utility functions
