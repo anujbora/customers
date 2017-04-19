@@ -136,7 +136,7 @@ class TestCustomerServer(unittest.TestCase):
         self.assertTrue('Andrea' in resp.data)
 
     def test_create_customer(self):
-        
+
          # save the current number of customers for later comparrison
          customer_count = self.get_customer_count()
          # add a new customer
@@ -174,6 +174,17 @@ class TestCustomerServer(unittest.TestCase):
         data = json.loads(resp.data)
         self.assertEqual( len(data), 1 )
         self.assertTrue('Ronaldinho' in resp.data)
+
+    def test_get_customer_list_by_gender(self):
+        resp = self.app.get('/customers?gender=M')
+        self.assertEqual( resp.status_code, status.HTTP_200_OK )
+        data = json.loads(resp.data)
+        self.assertEqual( len(data), 3 )
+        self.assertTrue('Ronaldinho' in resp.data)
+        resp = self.app.get('/customers?gender=F')
+        self.assertEqual( resp.status_code, status.HTTP_200_OK )
+        data = json.loads(resp.data)
+        self.assertEqual( len(data), 0 )
 
 
 ######################################################################
