@@ -249,6 +249,17 @@ class TestCustomerServer(unittest.TestCase):
         data = json.loads(resp.data)
         self.assertTrue('Customer 99 was not found' in resp.data)
 
+    def test_update_valid_customer(self):
+        updated_customer = {"first_name": "Ronaldinho", "last_name": "Gaucho", "gender": "M",
+        "age": "40", "email" : "r@g.br", "address_line1": "PSG",
+        "address_line2": "France", "phonenumber": "999"}
+        data = json.dumps(updated_customer)
+        resp = self.app.put('/customers/1', data=data, content_type='application/json')
+        self.assertEqual( resp.status_code, status.HTTP_200_OK )
+        data = json.loads(resp.data)
+        self.assertTrue("PSG" in data['address_line1'])
+        self.assertTrue("France" in data['address_line2'])
+
 ######################################################################
 # Utility functions
 ######################################################################
