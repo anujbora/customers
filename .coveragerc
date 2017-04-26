@@ -1,0 +1,18 @@
+[run]
+source =
+    server
+
+include =
+    server.py
+
+omit =
+    customers/*
+    customers/customer.py
+    customers/__init__.py
+    features/*
+    features/environment.py
+    test_server.py
+
+[report]
+include =
+    server.py
