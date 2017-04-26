@@ -26,7 +26,6 @@ app.config['LOGGING_LEVEL'] = logging.INFO
 debug = (os.getenv('DEBUG', 'False') == 'True')
 port = os.getenv('PORT', '5000')
 
-
 # Status Codes
 HTTP_200_OK = 200
 HTTP_201_CREATED = 201
@@ -222,19 +221,9 @@ def data_load(payload):
 def data_reset():
     redis.flushall()
 
-
-@app.before_first_request
-def setup_logging():
-    if not app.debug:
-        # In production mode, add log handler to sys.stderr.
-        handler = logging.StreamHandler()
-        handler.setLevel(app.config['LOGGING_LEVEL'])
-        # formatter = logging.Formatter(app.config['LOGGING_FORMAT'])
-        #'%Y-%m-%d %H:%M:%S'
-        formatter = logging.Formatter('[%(asctime)s] - %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
-        handler.setFormatter(formatter)
-        app.logger.addHandler(handler)
-
+######################################################################
+#  Redis Setup
+######################################################################
 
 def connect_to_redis(hostname, port, password):
     redis = Redis(host=hostname, port=port, password=password)
@@ -270,6 +259,5 @@ def inititalize_redis():
 #   M A I N
 ######################################################################
 if __name__ == "__main__":
-    print "Customer Service Starting..."
     inititalize_redis()
     app.run(host='0.0.0.0', port=int(port), debug=debug)
