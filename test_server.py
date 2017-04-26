@@ -270,6 +270,16 @@ class TestCustomerServer(unittest.TestCase):
         data = json.loads(resp.data)
         self.assertTrue("Customer 99 was not found" in data['error'])
 
+    def test_update_customer_invalid_payload(self):
+        updated_customer = {"first_name": "Ronaldinho", "last_name": "Gaucho", "gender": "M",
+        "age": "40", "email" : "r@g.br", "address_line1": "PSG",
+        "address_line2": "France", "this_number_makes_no_sense": "999"}
+        data = json.dumps(updated_customer)
+        resp = self.app.put('/customers/1', data=data, content_type='application/json')
+        self.assertEqual( resp.status_code, status.HTTP_400_BAD_REQUEST )
+        data = json.loads(resp.data)
+        self.assertTrue("Customer data was not valid" in data['error'])
+
 
 ######################################################################
 # Utility functions

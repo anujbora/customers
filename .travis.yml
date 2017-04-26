@@ -18,7 +18,7 @@ script:
   - nosetests
   #- behave
   # - nosetests tests/test_selenium.py
-  # - coverage run tests/test_server.py
+  - coverage run test_server.py
 
 after_success:
   - codecov
