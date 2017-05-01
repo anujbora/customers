@@ -96,7 +96,7 @@ def search_by_keyword(keyword):
                   description: unique id assigned internally by service
                 active:
                   type: boolean
-                  description: the status of promotion scheme whether it is currently active (true) or not (false)
+                  description: the status of customer whether it is currently active (true) or not (false)
                 address_line1:
                   type: string
                   description: address line 1 of the customer
