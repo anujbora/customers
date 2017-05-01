@@ -18,6 +18,8 @@ from redis import Redis
 from redis.exceptions import ConnectionError
 from flask import Flask, Response, jsonify, request, json, url_for, make_response
 from customers import Customer
+from flasgger import Swagger
+from flask_api import status
 
 # Create Flask applifion
 app = Flask(__name__)
@@ -25,6 +27,23 @@ app.config['LOGGING_LEVEL'] = logging.INFO
 
 debug = (os.getenv('DEBUG', 'False') == 'True')
 port = os.getenv('PORT', '5000')
+
+# Configure Swagger before initilaizing it
+app.config['SWAGGER'] = {
+    "swagger_version": "2.0",
+    "specs": [
+        {
+            "version": "1.0.0",
+            "title": "Customers | NYU DevOps Spring 2017",
+            "description": "Customers REST API",
+            "endpoint": 'v1_spec',
+            "route": '/v1/spec'
+        }
+    ]
+}
+
+# Initialize Swagger after configuring it
+Swagger(app)
 
 # Status Codes
 HTTP_200_OK = 200
@@ -49,6 +68,60 @@ def index():
 ######################################################################
 @app.route('/customers/search-keyword/<string:keyword>', methods=['GET'])
 def search_by_keyword(keyword):
+    """
+    Retrieve all customers for the given keyword
+    This endpoint will return customers which match given keyword
+    ---
+    tags:
+      - Customers
+    produces:
+      - application/json
+    parameters:
+      - name: keyword
+        in: path
+        description: the keyword to match for returning customers information
+        type: string
+        required: true
+    responses:
+      200:
+        description: An array of customers
+        schema:
+          type: array
+          items:
+            schema:
+              id: Customer
+              properties:
+                id:
+                  type: integer
+                  description: unique id assigned internally by service
+                active:
+                  type: boolean
+                  description: the status of promotion scheme whether it is currently active (true) or not (false)
+                address_line1:
+                  type: string
+                  description: address line 1 of the customer
+                address_line2:
+                  type: string
+                  description: address line 2 of the customer
+                age:
+                  type: integer
+                  description: age of the customer
+                email:
+                  type: string
+                  description: email address of the customer
+                first_name:
+                  type: string
+                  description: first name of the customer
+                last_name:
+                  type: string
+                  description: last name of the customer
+                gender:
+                  type: string
+                  description: gender of the customer
+                phonenumber:
+                  type: string
+                  description: phone number of the customer
+    """
     results = []
     results.extend(Customer.search_in_age(redis, keyword))
     results.extend(Customer.search_in_first_name(redis, keyword))
