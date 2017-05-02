@@ -252,7 +252,7 @@ class TestCustomerServer(unittest.TestCase):
     def test_update_valid_customer(self):
         updated_customer = {"first_name": "Ronaldinho", "last_name": "Gaucho", "gender": "M",
         "age": "40", "email" : "r@g.br", "address_line1": "PSG",
-        "address_line2": "France", "phonenumber": "999", "active": True}
+        "address_line2": "France", "phonenumber": "999"}
         data = json.dumps(updated_customer)
         resp = self.app.put('/customers/1', data=data, content_type='application/json')
         self.assertEqual( resp.status_code, status.HTTP_200_OK )
