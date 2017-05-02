@@ -387,7 +387,6 @@ def list_customers():
     address_line2 = request.args.get('address-line2')
     phonenumber = request.args.get('phonenumber')
     active = request.args.get('active')
-    print(active)
     if email:
         customers = Customer.find_by_email(redis, email)
     elif last_name:
@@ -509,10 +508,102 @@ def create_customers():
 ######################################################################
 @app.route('/customers/<int:id>', methods=['PUT'])
 def update_customers(id):
+    """
+    Update customer information
+    This endpoint will return update customer information
+    ---
+    tags:
+      - Customers
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: the id to match for finding a customer
+        type: integer
+        required: true
+      - in: body
+        name: body
+        schema:
+          id: data
+          required:
+            - address_line1
+            - address_line2
+            - age
+            - email
+            - first_name
+            - last_name
+            - gender
+            - phonenumber
+          properties:
+            address_line1:
+              type: string
+              description: address line 1 of the customer
+            address_line2:
+              type: string
+              description: address line 2 of the customer
+            age:
+              type: integer
+              description: age of the customer
+            email:
+              type: string
+              description: email address of the customer
+            first_name:
+              type: string
+              description: first name of the customer
+            last_name:
+              type: string
+              description: last name of the customer
+            gender:
+              type: string
+              description: gender of the customer
+            phonenumber:
+              type: string
+              description: phone number of the customer
+    responses:
+      200:
+        description: Customer information
+        schema:
+          id: Customer
+          properties:
+            id:
+              type: integer
+              description: unique id assigned internally by service
+            active:
+              type: boolean
+              description: updated status of customer whether it is currently active (false in this case)
+            address_line1:
+              type: string
+              description: updated address line 1 of the customer
+            address_line2:
+              type: string
+              description: updated address line 2 of the customer
+            age:
+              type: integer
+              description: updated age of the customer
+            email:
+              type: string
+              description: updated email address of the customer
+            first_name:
+              type: string
+              description: updated first name of the customer
+            last_name:
+              type: string
+              description: updated last name of the customer
+            gender:
+              type: string
+              description: updated gender of the customer
+            phonenumber:
+              type: string
+              description: updated phone number of the customer
+      404:
+        description: error, Customer was not found
+    """
     customer = Customer.find(redis, id)
     if customer:
         active = customer.active
         payload = request.get_json()
+        payload['active'] = True            # make payload complete
         if Customer.validate(payload):
             customer = Customer.from_dict(payload)
             customer.id = id				# so that the id in the URI is utilized
