@@ -34,15 +34,15 @@ class TestCustomerServer(unittest.TestCase):
 
         server.data_load({"first_name": "Andrea", "last_name": "Pirlo", "gender": "M",
         "age": "35", "email" : "a@p.com", "address_line1": "Milan",
-        "address_line2": "Italy", "phonenumber": "123"})
+        "address_line2": "Italy", "phonenumber": "123", "active": True})
 
         server.data_load({"first_name": "Theirry", "last_name": "Henry", "gender": "M",
         "age": "30", "email" : "t@h.com", "address_line1": "London",
-        "address_line2": "England", "phonenumber": "444"})
+        "address_line2": "England", "phonenumber": "444", "active": True})
 
         server.data_load({"first_name": "Ronaldinho", "last_name": "Gaucho", "gender": "M",
         "age": "40", "email" : "r@g.br", "address_line1": "Barcelona",
-        "address_line2": "Spain", "phonenumber": "999"})
+        "address_line2": "Spain", "phonenumber": "999", "active": True})
 
         #server.data_load({"name": "kitty", "category": "cat"})
 
@@ -252,7 +252,7 @@ class TestCustomerServer(unittest.TestCase):
     def test_update_valid_customer(self):
         updated_customer = {"first_name": "Ronaldinho", "last_name": "Gaucho", "gender": "M",
         "age": "40", "email" : "r@g.br", "address_line1": "PSG",
-        "address_line2": "France", "phonenumber": "999"}
+        "address_line2": "France", "phonenumber": "999", "active": True}
         data = json.dumps(updated_customer)
         resp = self.app.put('/customers/1', data=data, content_type='application/json')
         self.assertEqual( resp.status_code, status.HTTP_200_OK )
@@ -284,7 +284,6 @@ class TestCustomerServer(unittest.TestCase):
 ######################################################################
 # Utility functions
 ######################################################################
-
     def get_customer_count(self):
          # save the current number of customers
          resp = self.app.get('/customers')
