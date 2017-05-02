@@ -282,6 +282,101 @@ def deactivate_customer(id):
 ######################################################################
 @app.route('/customers', methods=['GET'])
 def list_customers():
+    """
+    Retrieve all customers or the customers which match given parameter(s)
+    This endpoint will return customers which match given parameter(s)
+    ---
+    tags:
+      - Customers
+    description: The customers endpoint allows you to query customers
+    produces:
+      - application/json
+    parameters:
+      - name: email
+        in: query
+        description: the email to match for returning customers information
+        type: string
+        required: false
+      - name: last-name
+        in: query
+        description: the last name to match for returning customers information
+        type: string
+        required: false
+      - name: first-name
+        in: query
+        description: the first name to match for returning customers information
+        type: string
+        required: false
+      - name: age
+        in: query
+        description: the age to match for returning customers information
+        type: integer
+        required: false
+      - name: gender
+        in: query
+        description: the gender to match for returning customers information
+        type: string
+        required: false
+      - name: address-line1
+        in: query
+        description: the address line 1 to match for returning customers information
+        type: string
+        required: false
+      - name: address-line2
+        in: query
+        description: the address line 2 to match for returning customers information
+        type: string
+        required: false
+      - name: phonenumber
+        in: query
+        description: the phone number to match for returning customers information
+        type: string
+        required: false
+      - name: active
+        in: query
+        description: the status of customer to match for returning customers information
+        type: boolean
+        required: false
+    responses:
+      200:
+        description: An array of customers
+        schema:
+          type: array
+          items:
+            schema:
+              id: Customer
+              properties:
+                id:
+                  type: integer
+                  description: unique id assigned internally by service
+                active:
+                  type: boolean
+                  description: the status of customer whether it is currently active (true) or not (false)
+                address_line1:
+                  type: string
+                  description: address line 1 of the customer
+                address_line2:
+                  type: string
+                  description: address line 2 of the customer
+                age:
+                  type: integer
+                  description: age of the customer
+                email:
+                  type: string
+                  description: email address of the customer
+                first_name:
+                  type: string
+                  description: first name of the customer
+                last_name:
+                  type: string
+                  description: last name of the customer
+                gender:
+                  type: string
+                  description: gender of the customer
+                phonenumber:
+                  type: string
+                  description: phone number of the customer
+    """
     customers = []
     email = request.args.get('email')
     last_name = request.args.get('last-name')
@@ -292,6 +387,7 @@ def list_customers():
     address_line2 = request.args.get('address-line2')
     phonenumber = request.args.get('phonenumber')
     active = request.args.get('active')
+    print(active)
     if email:
         customers = Customer.find_by_email(redis, email)
     elif last_name:
@@ -309,7 +405,7 @@ def list_customers():
     elif phonenumber:
         customers = Customer.find_by_phonenumber(redis, phonenumber)
     elif active:
-		customers = Customer.find_by_activity(redis, active)
+		customers = Customer.find_by_activity(redis, str(active).lower())
     else:
         customers = Customer.all(redis)
 
@@ -339,7 +435,7 @@ def create_customers():
     id = 0
     payload = request.get_json()
     if Customer.validate(payload):
-        customer = Customer(id, payload['first_name'], payload['last_name'],payload['gender'],payload['age'],payload['email'],payload['address_line1'],payload['address_line2'],payload['phonenumber'])
+        customer = Customer(id, payload['first_name'], payload['last_name'],payload['gender'],payload['age'],payload['email'],payload['address_line1'],payload['address_line2'],payload['phonenumber'], True)
         customer.save(redis)
         id = customer.id
         cust = Customer.find(redis, id) # added so that the response body of POST matches that of the GET and we compare the results in the TDD in the same format as the json returned by Redis
@@ -394,7 +490,7 @@ def delete_customers(id):
 #  U T I L I T Y   F U N C T I O N S
 ######################################################################
 def data_load(payload):
-    customers = Customer(0, payload['first_name'], payload['last_name'],payload['gender'],payload['age'],payload['email'],payload['address_line1'],payload['address_line2'],payload['phonenumber'])
+    customers = Customer(0, payload['first_name'], payload['last_name'],payload['gender'],payload['age'],payload['email'],payload['address_line1'],payload['address_line2'],payload['phonenumber'], True)
     customers.save(redis)
 
 def data_reset():
