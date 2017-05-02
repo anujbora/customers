@@ -417,6 +417,59 @@ def list_customers():
 ######################################################################
 @app.route('/customers/<int:id>', methods=['GET'])
 def get_customers(id):
+    """
+    Get customer with given ID
+    This endpoint will return customer customer information with given ID
+    ---
+    tags:
+      - Customers
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: the id to match for finding a customer
+        type: integer
+        required: true
+    responses:
+      200:
+        description: Customer information
+        schema:
+          id: Customer
+          properties:
+            id:
+              type: integer
+              description: unique id assigned internally by service
+            active:
+              type: boolean
+              description: the status of customer whether it is currently active (false in this case)
+            address_line1:
+              type: string
+              description: address line 1 of the customer
+            address_line2:
+              type: string
+              description: address line 2 of the customer
+            age:
+              type: integer
+              description: age of the customer
+            email:
+              type: string
+              description: email address of the customer
+            first_name:
+              type: string
+              description: first name of the customer
+            last_name:
+              type: string
+              description: last name of the customer
+            gender:
+              type: string
+              description: gender of the customer
+            phonenumber:
+              type: string
+              description: phone number of the customer
+      404:
+        description: error, Customer was not found
+    """
     customer = Customer.find(redis, id)
     if customer:
         message = customer.serialize()

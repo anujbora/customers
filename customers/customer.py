@@ -69,8 +69,6 @@ class Customer(object):
         for key in redis.keys():
             if key != 'index':  # filer out our id index
                 data = redis.hgetall(key)
-                if data['active'] == True:
-                    print("this ifalse false false")
                 results.append(Customer.from_dict(data))
         return results
 
@@ -138,7 +136,6 @@ class Customer(object):
         for key in redis.keys():
             if key != 'index':  # filer out our id index
                 data = redis.hgetall(key)
-                print("find : " + str(data['active']))
                 if str(data['active']).lower() == active:
                     results.append(Customer.from_dict(data))
         return results
