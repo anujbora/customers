@@ -213,6 +213,59 @@ def activate_customer(id):
 ######################################################################
 @app.route('/customers/deactivate/<int:id>', methods=['PUT'])
 def deactivate_customer(id):
+    """
+    Deactivate a customer with given ID
+    This endpoint will deactivate the customer with given ID
+    ---
+    tags:
+      - Customers
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: the id to match for deactivating customer
+        type: integer
+        required: true
+    responses:
+      200:
+        description: Customer deactivated
+        schema:
+          id: Customer
+          properties:
+            id:
+              type: integer
+              description: unique id assigned internally by service
+            active:
+              type: boolean
+              description: the status of customer whether it is currently active (false in this case)
+            address_line1:
+              type: string
+              description: address line 1 of the customer
+            address_line2:
+              type: string
+              description: address line 2 of the customer
+            age:
+              type: integer
+              description: age of the customer
+            email:
+              type: string
+              description: email address of the customer
+            first_name:
+              type: string
+              description: first name of the customer
+            last_name:
+              type: string
+              description: last name of the customer
+            gender:
+              type: string
+              description: gender of the customer
+            phonenumber:
+              type: string
+              description: phone number of the customer
+      404:
+        description: error, Customer was not found
+    """
     customer = Customer.find(redis, id)
     if customer:
 		customer.active = False
