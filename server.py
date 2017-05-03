@@ -686,6 +686,8 @@ def update_customers(id):
               description: updated phone number of the customer
       404:
         description: error, Customer was not found
+      400:
+        description: bad request, data was invalid
     """
     customer = Customer.find(redis, id)
     if customer:
