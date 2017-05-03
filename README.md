@@ -1,8 +1,16 @@
+# Customer REST API Service for E-Commerce website
+
 [![Build Status](https://travis-ci.org/devops-alpha-s17/customers.svg?branch=master)](https://travis-ci.org/devops-alpha-s17/customers) [![codecov](https://codecov.io/gh/devops-alpha-s17/customers/branch/master/graph/badge.svg)](https://codecov.io/gh/devops-alpha-s17/customers)
 
-
-# Customer REST API Service for E-Commerce website
 This repository is part of lab for the *NYU DevOps* class for Spring 2017, [CSCI-GA.3033-013](http://cs.nyu.edu/courses/spring17/CSCI-GA.3033-013/)
+
+--> URL of your service running on Cloud Foundry
+
+https://nyu-devops-alphateam.mybluemix.net/
+
+--> URL of your service running on Docker Container Cloud
+
+https://nyu-lab-docker-alpha.mybluemix.net/
 
 This RESTful customer API contains the basic CRUD operation and some actions as follow:
 
@@ -122,7 +130,7 @@ For instance, enter https://nyu-customers-service-alpha.mybluemix.net/customers/
 Sometimes a customer may be autherized to be the user of the website so that we design an action to activate the customer.
 Do PUT in https://nyu-customers-service-alpha.mybluemix.net/customers/activate/{id} in RESTful client and substitute the '{id}' into the customer id. The the status of active of that customer will be True after the action.
 
-For instance: 
+For instance:
 ```bash
     {
         active: "True",
@@ -143,7 +151,7 @@ For instance:
 Sometimes a customer may be unautherized to be the user of the website so that we design an action to deactivate the customer.
 Do PUT  https://nyu-customers-service-alpha.mybluemix.net/customers/deactivate/{id} in RESTful client and substitute the '{id}' into the customer id. The the status of active of that customer will be False after the action.
 
-For instance: 
+For instance:
 ```bash
     {
         active: "False",
@@ -178,6 +186,6 @@ Do POST https://nyu-customers-service-alpha.mybluemix.net/customers in RESTful c
 
 **manifest.yml** - Controls how the app will be deployed in Bluemix and specifies memory and other services like Redis that are needed to be bound to it.
 
-**server.py** - the python application script. This is implemented as a simple [Flask](http://flask.pocoo.org/) application. The routes are defined in the application using the @app.route() calls. 
+**server.py** - the python application script. This is implemented as a simple [Flask](http://flask.pocoo.org/) application. The routes are defined in the application using the @app.route() calls.
 
 This is the port given to your application so that http requests can be routed to it. If the property is not defined then it falls back to port 5000 allowing you to run this sample application locally.
