@@ -221,30 +221,30 @@ class TestCustomerServer(unittest.TestCase):
         self.assertEqual( len(data), 0 )
 
     def test_deactivate_valid_customer(self):
-        resp = self.app.put('/customers/deactivate/1')
+        resp = self.app.put('/customers/1/deactivate')
         self.assertEqual( resp.status_code, HTTP_200_OK )
         data = json.loads(resp.data)
         self.assertEqual (data['first_name'], 'Andrea')
         self.assertEqual (data['active'], False)
 
     def test_deactivate_invalid_customer(self):
-        resp = self.app.put('/customers/deactivate/99')
+        resp = self.app.put('/customers/99/deactivate')
         self.assertEqual( resp.status_code, HTTP_404_NOT_FOUND )
         data = json.loads(resp.data)
         self.assertTrue('Customer 99 was not found' in resp.data)
 
     def test_activate_valid_customer(self):
-        resp = self.app.put('/customers/deactivate/1')
+        resp = self.app.put('/customers/1/deactivate')
         data = json.loads(resp.data)
         self.assertEqual (data['active'], False)
-        resp = self.app.put('/customers/activate/1')
+        resp = self.app.put('/customers/1/activate')
         self.assertEqual( resp.status_code, HTTP_200_OK )
         data = json.loads(resp.data)
         self.assertEqual (data['first_name'], 'Andrea')
         self.assertEqual (data['active'], True)
 
     def test_activate_invalid_customer(self):
-        resp = self.app.put('/customers/activate/99')
+        resp = self.app.put('/customers/99/activate')
         self.assertEqual( resp.status_code, HTTP_404_NOT_FOUND )
         data = json.loads(resp.data)
         self.assertTrue('Customer 99 was not found' in resp.data)
