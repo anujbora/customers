@@ -484,6 +484,94 @@ def get_customers(id):
 ######################################################################
 @app.route('/customers', methods=['POST'])
 def create_customers():
+    """
+    Creates a Customer
+    This endpoint will create a Customer based the data in the body that is posted
+    ---
+    tags:
+      - Customers
+    consumes:
+      - application/json
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        schema:
+          id: data
+          required:
+            - address_line1
+            - address_line2
+            - age
+            - email
+            - first_name
+            - last_name
+            - gender
+            - phonenumber
+          properties:
+            address_line1:
+              type: string
+              description: address line 1 of the customer
+            address_line2:
+              type: string
+              description: address line 2 of the customer
+            age:
+              type: integer
+              description: age of the customer
+            email:
+              type: string
+              description: email address of the customer
+            first_name:
+              type: string
+              description: first name of the customer
+            last_name:
+              type: string
+              description: last name of the customer
+            gender:
+              type: string
+              description: gender of the customer
+            phonenumber:
+              type: string
+              description: phone number of the customer
+    responses:
+      201:
+        description: Customer information
+        schema:
+          id: Customer
+          properties:
+            id:
+              type: integer
+              description: unique id assigned internally by service
+            active:
+              type: boolean
+              description: the status of customer whether it is currently active (false in this case)
+            address_line1:
+              type: string
+              description: address line 1 of the customer
+            address_line2:
+              type: string
+              description: address line 2 of the customer
+            age:
+              type: integer
+              description: age of the customer
+            email:
+              type: string
+              description: email address of the customer
+            first_name:
+              type: string
+              description: first name of the customer
+            last_name:
+              type: string
+              description: last name of the customer
+            gender:
+              type: string
+              description: gender of the customer
+            phonenumber:
+              type: string
+              description: phone number of the customer
+      400:
+        description: Bad Request (the posted data was not valid)
+    """
     id = 0
     payload = request.get_json()
     if Customer.validate(payload):
