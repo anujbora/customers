@@ -17,11 +17,12 @@ EXPOSE $PORT
 # Set up a working folder and install the pre-reqs
 WORKDIR /app
 ADD requirements.txt /app
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 # Add the code as the last Docker layer because it changes the most
 ADD static /app/static
-ADD service.py /app
+ADD server.py /app
 
 # Run the service
-CMD [ "python", "service.py" ]
+CMD [ "python", "server.py" ]
