@@ -625,6 +625,23 @@ def update_customers(id):
 ######################################################################
 @app.route('/customers/<int:id>', methods=['DELETE'])
 def delete_customers(id):
+    """
+    Delete a Customer
+    This endpoint will delete a Customer based the id specified in the path
+    ---
+    tags:
+      - Customers
+    description: Deletes a Customer from the database
+    parameters:
+      - name: id
+        in: path
+        description: ID of customer to delete
+        type: integer
+        required: true
+    responses:
+      204:
+        description: Customer deleted
+    """
     customer = Customer.find(redis, id)
     if customer:
         customer.delete(redis)
