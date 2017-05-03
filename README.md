@@ -18,7 +18,7 @@ This RESTful customer API contains the basic CRUD operation and some actions as 
 
 **LIST all customers data**
 
-Go to https://nyu-customers-service-alpha.mybluemix.net/customers in browser to check out all customers information. The data format is like:
+Go to https://nyu-devops-alphateam.mybluemix.net/customers in browser to check out all customers information. The data format is like:
 
 ```bash
     {
@@ -37,9 +37,9 @@ Go to https://nyu-customers-service-alpha.mybluemix.net/customers in browser to 
 
 **Query the customer information by attribute**
 
-Go to https://nyu-customers-service-alpha.mybluemix.net/customers?attribute=abc in browser and substitute 'attribute' into the attribute you want to search and subsitute 'abc' into the content you want to find.
+Go to https://nyu-devops-alphateam.mybluemix.net/customers?attribute=abc in browser and substitute 'attribute' into the attribute you want to search and subsitute 'abc' into the content you want to find.
 
-For instance, enter https://nyu-customers-service-alpha.mybluemix.net/customers?gender=F in browser and get results:
+For instance, enter https://nyu-devops-alphateam.mybluemix.net/customers?gender=F in browser and get results:
 
     [
         {
@@ -70,17 +70,17 @@ For instance, enter https://nyu-customers-service-alpha.mybluemix.net/customers?
 
 **Retrieves a customer from the DB using an ID**
 
-Go to https://nyu-customers-service-alpha.mybluemix.net/customers/{id} in browser and substitute '{id}' into the id number of customer.
+Go to https://nyu-devops-alphateam.mybluemix.net/customers/{id} in browser and substitute '{id}' into the id number of customer.
 
-For instance, enter https://nyu-customers-service-alpha.mybluemix.net/customers/5 to check the customer whose id is 5
+For instance, enter https://nyu-devops-alphateam.mybluemix.net/customers/5 to check the customer whose id is 5
 
 **Retrieves all customers which contain the searched keyword**
 
 This function is used to search all customers whose information contains the keyword whether the keyword is complete or not.
 **Attention** This search is an case sensitive search.
-Go to https://nyu-customers-service-alpha.mybluemix.net/customers/search-keyword/{content} in browser and substitue the '{content}' into any content to be searched.
+Go to https://nyu-devops-alphateam.mybluemix.net/customers/search-keyword/{content} in browser and substitue the '{content}' into any content to be searched.
 
-For instance, enter https://nyu-customers-service-alpha.mybluemix.net/customers/search-keyword/wood to search customers with wood and get results:
+For instance, enter https://nyu-devops-alphateam.mybluemix.net/customers/search-keyword/wood to search customers with wood and get results:
 
 ```bash
   [
@@ -128,7 +128,7 @@ For instance, enter https://nyu-customers-service-alpha.mybluemix.net/customers/
 **Activate the customer**
 
 Sometimes a customer may be autherized to be the user of the website so that we design an action to activate the customer.
-Do PUT in https://nyu-customers-service-alpha.mybluemix.net/customers/activate/{id} in RESTful client and substitute the '{id}' into the customer id. The the status of active of that customer will be True after the action.
+Do PUT in https://nyu-devops-alphateam.mybluemix.net/customers/activate/{id} in RESTful client and substitute the '{id}' into the customer id. The the status of active of that customer will be True after the action.
 
 For instance:
 ```bash
@@ -149,7 +149,7 @@ For instance:
 **Deactivate the customer**
 
 Sometimes a customer may be unautherized to be the user of the website so that we design an action to deactivate the customer.
-Do PUT  https://nyu-customers-service-alpha.mybluemix.net/customers/deactivate/{id} in RESTful client and substitute the '{id}' into the customer id. The the status of active of that customer will be False after the action.
+Do PUT  https://nyu-devops-alphateam.mybluemix.net/customers/deactivate/{id} in RESTful client and substitute the '{id}' into the customer id. The the status of active of that customer will be False after the action.
 
 For instance:
 ```bash
@@ -169,15 +169,15 @@ For instance:
 
 **Updates a customer using an ID**
 
-Do PUT  https://nyu-customers-service-alpha.mybluemix.net/customers/{id} in RESTful client and substitute the '{id}' into the customer id. Then the content of that customer will be updated.
+Do PUT  https://nyu-devops-alphateam.mybluemix.net/customers/{id} in RESTful client and substitute the '{id}' into the customer id. Then the content of that customer will be updated.
 
 ## DELETE
 
-Do DELETE https://nyu-customers-service-alpha.mybluemix.net/customers/{id} in RESTful client and substitute the '{id}' into the customer id. Then the content of that customer will be deleted.
+Do DELETE https://nyu-devops-alphateam.mybluemix.net/customers/{id} in RESTful client and substitute the '{id}' into the customer id. Then the content of that customer will be deleted.
 
 ## POST
 
-Do POST https://nyu-customers-service-alpha.mybluemix.net/customers in RESTful client Then the content of that customer will be added.
+Do POST https://nyu-devops-alphateam.mybluemix.net/customers in RESTful client Then the content of that customer will be added.
 
 
 
