@@ -12,6 +12,10 @@ https://nyu-devops-alphateam.mybluemix.net/
 
 https://nyu-lab-docker-alpha.mybluemix.net/
 
+--> Documentation
+
+https://nyu-devops-alphateam.mybluemix.net/apidocs/index.html
+
 This RESTful customer API contains the basic CRUD operation and some actions as follow:
 
 ## GET
