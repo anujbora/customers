@@ -142,7 +142,7 @@ def search_by_keyword(keyword):
 ######################################################################
 # ACTIVATE a customer
 ######################################################################
-@app.route('/customers/activate/<int:id>', methods=['PUT'])
+@app.route('/customers/<int:id>/activate', methods=['PUT'])
 def activate_customer(id):
     """
     Activate a customer with given ID
@@ -211,7 +211,7 @@ def activate_customer(id):
 ######################################################################
 # DEACTIVATE a customer
 ######################################################################
-@app.route('/customers/deactivate/<int:id>', methods=['PUT'])
+@app.route('/customers/<int:id>/deactivate', methods=['PUT'])
 def deactivate_customer(id):
     """
     Deactivate a customer with given ID
